@@ -1,21 +1,10 @@
-import { useState } from "react";
 import "./App.css";
-import { Button } from "./components/ui/button";
+
+import { RouterProvider } from "react-router-dom";
+import { router } from "./router";
 
 function App() {
-  const [AnimeFesuta, setAnimeFesuta] = useState(false);
-
-  const handleClick = () => {
-    setAnimeFesuta(!AnimeFesuta);
-  };
-
-  return (
-    <>
-      <Button onClick={handleClick}>
-        {AnimeFesuta ? "AnimeFesuta是漫展~" : "AnimeFesuta"}
-      </Button>
-    </>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
