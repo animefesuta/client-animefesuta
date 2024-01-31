@@ -105,7 +105,11 @@ export default function Navbar() {
               <FaUser />
             </div>
           ) : (
-            <Button onClick={login}>登录</Button>
+            <div className="flex gap-5">
+              <Button onClick={login}>登录</Button>
+              <span className="bg-gray-500 w-[1px]"></span>
+              <Button onClick={login}>注册</Button>
+            </div>
           )}
         </div>
       </div>
