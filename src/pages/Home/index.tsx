@@ -39,9 +39,14 @@ export default function Home() {
           </CarouselContent>
         </Carousel>
       </div>
-      <div>
-        <h1 className="text-2xl text-blue-400 m-3">推荐</h1>
-      </div>
+      {/* TODO */}
+      <h1 className="text-2xl text-blue-400 m-3">热门标签</h1>
+      <h1 className="text-2xl text-blue-400 m-3">本周热门</h1>
+      <h1 className="text-2xl text-blue-400 m-3">最近上传</h1>
+      <h1 className="text-2xl text-blue-400 m-3">精选返图</h1>
+      <h1 className="text-2xl text-blue-400 m-3">精选插画</h1>
+      <h1 className="text-2xl text-blue-400 m-3">精选文章</h1>
+      <h1 className="text-2xl text-blue-400 m-3">推荐Coser</h1>
     </>
   );
 }
