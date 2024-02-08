@@ -121,7 +121,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="flex h-[460px] items-center mx-14 my-5 justify-center ">
+      <div className="flex h-[460px] items-center mx-14 my-5 justify-center">
         <MdKeyboardDoubleArrowLeft
           size={30}
           color="#CCC"
@@ -168,11 +168,11 @@ export default function Home() {
           onClick={() => api?.scrollNext()}
         />
       </div>
-      <div className="mx-20 flex justify-between">
-        <div>
+      <div className="mx-20 flex">
+        <div className="flex flex-1 flex-col">
           <div>
             <h1 className="text-2xl m-3">精选返图</h1>
-            <div className="flex gap-5 justify-around flex-wrap">
+            <div className="flex gap-5 justify-start flex-wrap">
               <Card cards={cardItem} />
             </div>
           </div>
@@ -182,10 +182,20 @@ export default function Home() {
         </div>
 
         {/* TODO */}
-        <div className="min-w-fit">
-          <h1 className="text-2xl m-3">热门标签</h1>
-          <h1 className="text-2xl m-3">本周热门</h1>
-          <h1 className="text-2xl m-3">最近上传</h1>
+        <div className="text-2xl m-3 flex flex-col gap-4">
+          <div className="bg-slate-500 bg-opacity-20 rounded-lg w-[25rem] h-[130px] cursor-pointer"></div>
+          <div>
+            <div>热门标签</div>
+            <div></div>
+          </div>
+          <div>
+            <div>本周热门</div>
+            <div></div>
+          </div>
+          <div>
+            <div>最近上传</div>
+            <div></div>
+          </div>
         </div>
       </div>
       <div className="mx-20">
