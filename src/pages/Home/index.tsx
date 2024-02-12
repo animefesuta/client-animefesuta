@@ -15,6 +15,15 @@ import {
 } from "react-icons/md";
 import Card from "./_components/Card";
 
+const colorArray = [
+  "#6c5ce7",
+  "#00b894",
+  "#fd79a8",
+  "#6ab04c",
+  "#30336b",
+  "#e056fd",
+];
+
 export default function Home() {
   const [carouselItem, setCarouselItem] = useState<
     { name: string; url: string }[]
@@ -29,6 +38,8 @@ export default function Home() {
       type: string;
     }[]
   >([]);
+
+  const [spanItem, setSpanItem] = useState<{ name: string; id: string }[]>([]);
 
   const [api, setApi] = useState<CarouselApi>();
 
@@ -117,6 +128,18 @@ export default function Home() {
         type: "ai",
       },
     ]);
+
+    setSpanItem(() => [
+      { name: "米哈游", id: "u12345" },
+      { name: "大伟哥", id: "u12346" },
+      { name: "爱莉希雅", id: "u12347" },
+      { name: "格蕾修", id: "u12348" },
+      { name: "流萤", id: "u12349" },
+      { name: "Arch", id: "u12310" },
+      { name: "mmd", id: "u12311" },
+      { name: "unreal", id: "u12312" },
+      { name: "unity", id: "u12313" },
+    ]);
   }, []);
 
   return (
@@ -182,11 +205,25 @@ export default function Home() {
         </div>
 
         {/* TODO */}
-        <div className="text-2xl m-3 flex flex-col gap-4">
+        <div className="text-2xl m-3 w-[25rem] flex flex-col gap-4">
           <div className="bg-slate-500 bg-opacity-20 rounded-lg w-[25rem] h-[130px] cursor-pointer"></div>
-          <div>
+          <div className="flex flex-col gap-2">
             <div>热门标签</div>
-            <div></div>
+            <div className="text-sm flex gap-2 flex-wrap">
+              {spanItem.map((item) => (
+                <span
+                  style={{
+                    backgroundColor: `${
+                      colorArray[Math.floor(Math.random() * colorArray.length)]
+                    }`,
+                  }}
+                  className="text-white leading-8 h-8 px-[12px] bg-hover rounded-[6px] hover:translate-y-[-3px] cursor-pointer duration-150 hover:!bg-[#53b2f4]"
+                  key={item.id}
+                >
+                  {item.name}
+                </span>
+              ))}
+            </div>
           </div>
           <div>
             <div>本周热门</div>
