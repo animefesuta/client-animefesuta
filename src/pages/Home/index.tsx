@@ -145,14 +145,15 @@ export default function Home() {
 
   return (
     <>
-      <div className="flex h-[460px] items-center mx-14 my-5 justify-center">
+      <div className="flex h-[160px] md:h-[260px] lg:h-[360px] xl:h-[460px] items-center md:mx-14 md:my-5 justify-center">
         <MdKeyboardDoubleArrowLeft
+          className="hidden md:block"
           size={30}
           color="#CCC"
           cursor="pointer"
           onClick={() => api?.scrollPrev()}
         />
-        <div className="flex-1 rounded-xl overflow-hidden">
+        <div className="flex-1 md:rounded-xl overflow-hidden">
           <Carousel
             className="w-full h-full"
             setApi={setApi}
@@ -175,7 +176,7 @@ export default function Home() {
                   >
                     <div
                       className={clsx(
-                        `h-[460px] bg-cover w-full hover:scale-105 transform duration-300`
+                        `h-[160px] md:h-[260px] lg:h-[360px] xl:h-[460px] bg-cover w-full hover:scale-105 transform duration-300`
                       )}
                       style={{ backgroundImage: `url(${item.url})` }}
                     ></div>
@@ -186,6 +187,7 @@ export default function Home() {
           </Carousel>
         </div>
         <MdKeyboardDoubleArrowRight
+          className="hidden md:block"
           size={30}
           color="#CCC"
           cursor="pointer"
@@ -196,7 +198,7 @@ export default function Home() {
         <div className="flex flex-1 flex-col">
           <div>
             <h1 className="text-2xl m-3">精选返图</h1>
-            <div className="flex gap-5 justify-start flex-wrap">
+            <div className="flex gap-5 justify-evenly flex-wrap">
               {cardItem.map((item) => (
                 <Card {...item} key={item.id} />
               ))}
