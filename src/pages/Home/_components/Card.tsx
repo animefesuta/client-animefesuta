@@ -1,3 +1,5 @@
+import clsx from "clsx";
+
 interface CardProps {
   id: string;
   imgurl: string;
@@ -6,11 +8,16 @@ interface CardProps {
   type: string;
 }
 
-const Card: React.FC<CardProps> = ({ ...CardProps }) => {
+const Card: React.FC<CardProps & React.ComponentProps<"div">> = ({
+  ...CardProps
+}) => {
   return (
     <div
       key={CardProps.id}
-      className="border bg-white flex flex-col overflow-hidden w-[260px] h-[200px] rounded-xl"
+      className={clsx(
+        CardProps.className,
+        "border bg-white flex flex-col overflow-hidden h-[200px] rounded-xl"
+      )}
     >
       {/* img */}
       <div

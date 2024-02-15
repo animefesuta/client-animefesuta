@@ -194,11 +194,11 @@ export default function Home() {
           onClick={() => api?.scrollNext()}
         />
       </div>
-      <div className="mx-20 flex">
+      <div className="md:mx-20 flex">
         <div className="flex flex-1 flex-col">
           <div>
             <h1 className="text-2xl m-3">精选返图</h1>
-            <div className="flex gap-5 justify-evenly flex-wrap">
+            <div className="grid grid-cols-2 gap-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
               {cardItem.map((item) => (
                 <Card {...item} key={item.id} />
               ))}
