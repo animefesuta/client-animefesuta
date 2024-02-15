@@ -197,7 +197,9 @@ export default function Home() {
           <div>
             <h1 className="text-2xl m-3">精选返图</h1>
             <div className="flex gap-5 justify-start flex-wrap">
-              <Card cards={cardItem} />
+              {cardItem.map((item) => (
+                <Card {...item} key={item.id} />
+              ))}
             </div>
           </div>
 
