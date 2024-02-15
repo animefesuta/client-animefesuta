@@ -14,6 +14,7 @@ import {
   MdKeyboardDoubleArrowRight,
 } from "react-icons/md";
 import Card from "./_components/Card";
+import Tag from "./_components/Tag";
 
 const colorArray = [
   "#6c5ce7",
@@ -211,17 +212,14 @@ export default function Home() {
             <div>热门标签</div>
             <div className="text-sm flex gap-2 flex-wrap">
               {spanItem.map((item) => (
-                <span
-                  style={{
-                    backgroundColor: `${
-                      colorArray[Math.floor(Math.random() * colorArray.length)]
-                    }`,
-                  }}
-                  className="text-white leading-8 h-8 px-[12px] bg-hover rounded-[6px] hover:translate-y-[-3px] cursor-pointer duration-150 hover:!bg-[#53b2f4]"
+                <Tag
+                  tagColor={
+                    colorArray[Math.floor(Math.random() * colorArray.length)]
+                  }
+                  tagId={item.id}
+                  tagValue={item.name}
                   key={item.id}
-                >
-                  {item.name}
-                </span>
+                />
               ))}
             </div>
           </div>
