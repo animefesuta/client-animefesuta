@@ -210,7 +210,7 @@ export default function Home() {
         </div>
 
         {/* TODO */}
-        <div className="text-2xl m-3 w-[25rem] flex flex-col gap-4">
+        <div className="hidden md:flex text-2xl m-3 w-[25rem] flex-col gap-4">
           <div className="bg-slate-500 bg-opacity-20 rounded-lg w-[25rem] h-[130px] cursor-pointer"></div>
           <div className="flex flex-col gap-2">
             <div>热门标签</div>
