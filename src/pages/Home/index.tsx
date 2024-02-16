@@ -122,13 +122,6 @@ export default function Home() {
         username: "ai",
         type: "ai",
       },
-      {
-        id: "12329",
-        imgurl: "/elysia_4.png",
-        title: "爱莉5",
-        username: "ai",
-        type: "ai",
-      },
     ]);
 
     setSpanItem(() => [
@@ -196,7 +189,9 @@ export default function Home() {
         />
       </div>
       <div className="md:mx-20 flex">
-        <div className="flex flex-1 flex-col">
+        {/* 首页左侧 */}
+        <div className="flex flex-1 flex-col min-w-[340px] ">
+          {/* 精选返图 */}
           <div>
             <h1 className="text-2xl flex gap-2 items-center justify-between m-3">
               <span>精选返图</span>
@@ -217,13 +212,26 @@ export default function Home() {
             </div>
           </div>
 
-          {/* TODO */}
-          <h1 className="text-2xl m-3">精选帖子</h1>
+          {/* 精选帖子 */}
+          <div>
+            <h1 className="text-2xl flex gap-2 items-center justify-between m-3">
+              <span>精选帖子</span>
+              <div className="bg-[url(/arrow_r.png)] bg-center flex-1 h-4"></div>
+              <div className="text-[16px] bg-white text-[rgba(0,20,39,.5)] hover:text-white flex justify-center items-center transform duration-150 hover:bg-[#53b2f4] cursor-pointer rounded-full px-4 py-1">
+                <IoRefresh />
+                <span>换一换</span>
+              </div>
+              <div className="text-[16px] bg-white text-[rgba(0,20,39,.5)] hover:text-white flex justify-center items-center transform duration-150 hover:bg-[#53b2f4] cursor-pointer rounded-full px-4 py-1">
+                <span>更多</span>
+                <IoIosArrowForward />
+              </div>
+            </h1>
+          </div>
         </div>
 
-        {/* TODO */}
+        {/* 首页右侧栏 */}
         <div className="hidden md:flex text-2xl m-3 w-[25rem] flex-col gap-4">
-          <div className="bg-slate-500 bg-opacity-20 rounded-lg w-[25rem] h-[130px] cursor-pointer"></div>
+          <div className="bg-slate-500 bg-opacity-20 rounded-lg w-full h-[130px] cursor-pointer"></div>
           <div className="flex flex-col gap-2">
             <div>热门标签</div>
             <div className="text-sm flex gap-2 flex-wrap">
@@ -249,9 +257,20 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="mx-20">
-        {/* TODO */}
-        <h1 className="text-2xl m-3">推荐Coser</h1>
+      <div className="md:mx-20 flex">
+        {/* 推荐Coser */}
+        <h1 className="text-2xl flex w-full gap-2 items-center justify-between m-3">
+          <span>推荐Coser</span>
+          <div className="bg-[url(/arrow_r.png)] bg-center flex-1 h-4"></div>
+          <div className="text-[16px] bg-white text-[rgba(0,20,39,.5)] hover:text-white flex justify-center items-center transform duration-150 hover:bg-[#53b2f4] cursor-pointer rounded-full px-4 py-1">
+            <IoRefresh />
+            <span>换一换</span>
+          </div>
+          <div className="text-[16px] bg-white text-[rgba(0,20,39,.5)] hover:text-white flex justify-center items-center transform duration-150 hover:bg-[#53b2f4] cursor-pointer rounded-full px-4 py-1">
+            <span>更多</span>
+            <IoIosArrowForward />
+          </div>
+        </h1>
       </div>
     </>
   );
