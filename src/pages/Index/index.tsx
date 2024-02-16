@@ -4,10 +4,11 @@ export default function Index() {
   return (
     <div
       style={{
+        backgroundColor: "#F8F8F8",
         backgroundImage: "url(/web_bg.png)",
         backgroundSize: "15%",
       }}
-      className="h-[100vh] gap-5"
+      className=" gap-5"
     >
       <Navbar />
       <Outlet />

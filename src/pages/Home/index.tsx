@@ -15,7 +15,8 @@ import {
 } from "react-icons/md";
 import Card from "./_components/Card";
 import Tag from "./_components/Tag";
-
+import { IoIosArrowForward } from "react-icons/io";
+import { IoRefresh } from "react-icons/io5";
 const colorArray = [
   "#6c5ce7",
   "#00b894",
@@ -197,7 +198,18 @@ export default function Home() {
       <div className="md:mx-20 flex">
         <div className="flex flex-1 flex-col">
           <div>
-            <h1 className="text-2xl m-3">精选返图</h1>
+            <h1 className="text-2xl flex gap-2 items-center justify-between m-3">
+              <span>精选返图</span>
+              <div className="bg-[url(/arrow_r.png)] bg-center flex-1 h-4"></div>
+              <div className="text-[16px] bg-white text-[rgba(0,20,39,.5)] hover:text-white flex justify-center items-center transform duration-150 hover:bg-[#53b2f4] cursor-pointer rounded-full px-4 py-1">
+                <IoRefresh />
+                <span>换一换</span>
+              </div>
+              <div className="text-[16px] bg-white text-[rgba(0,20,39,.5)] hover:text-white flex justify-center items-center transform duration-150 hover:bg-[#53b2f4] cursor-pointer rounded-full px-4 py-1">
+                <span>更多</span>
+                <IoIosArrowForward />
+              </div>
+            </h1>
             <div className="grid grid-cols-2 gap-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
               {cardItem.map((item) => (
                 <Card {...item} key={item.id} />
