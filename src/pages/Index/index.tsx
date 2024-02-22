@@ -8,7 +8,7 @@ export default function Index() {
         backgroundImage: "url(/web_bg.png)",
         backgroundSize: "15%",
       }}
-      className="gap-5 h-[100vh]"
+      className="gap-5 h-[100%]"
     >
       <Navbar />
       <Outlet />
