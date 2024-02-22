@@ -8,7 +8,7 @@ interface CardProps {
   type: string;
 }
 
-const Card: React.FC<CardProps & React.ComponentProps<"div">> = ({
+const VerticalCard: React.FC<CardProps & React.ComponentProps<"div">> = ({
   ...CardProps
 }) => {
   return (
@@ -45,4 +45,4 @@ const Card: React.FC<CardProps & React.ComponentProps<"div">> = ({
   );
 };
 
-export default Card;
+export { VerticalCard };

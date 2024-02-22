@@ -13,10 +13,11 @@ import {
   MdKeyboardDoubleArrowLeft,
   MdKeyboardDoubleArrowRight,
 } from "react-icons/md";
-import Card from "./_components/Card";
+import { VerticalCard } from "./_components/VerticalCard";
 import Tag from "./_components/Tag";
 import { IoIosArrowForward } from "react-icons/io";
 import { IoRefresh } from "react-icons/io5";
+import { HorizontalCard } from "./_components/HorizontalCard";
 const colorArray = [
   "#6c5ce7",
   "#00b894",
@@ -138,7 +139,7 @@ export default function Home() {
   }, []);
 
   return (
-    <>
+    <div className="max-w-[1800px] mx-auto">
       <div className="flex h-[160px] md:h-[260px] lg:h-[360px] xl:h-[460px] items-center md:mx-14 md:my-5 justify-center">
         <MdKeyboardDoubleArrowLeft
           className="hidden md:block"
@@ -207,7 +208,7 @@ export default function Home() {
             </h1>
             <div className="grid grid-cols-2 gap-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
               {cardItem.map((item) => (
-                <Card {...item} key={item.id} />
+                <VerticalCard {...item} key={item.id} />
               ))}
             </div>
           </div>
@@ -230,8 +231,8 @@ export default function Home() {
         </div>
 
         {/* 首页右侧栏 */}
-        <div className="hidden md:flex text-2xl m-3 w-[25rem] flex-col gap-4">
-          <div className="bg-slate-500 bg-opacity-20 rounded-lg w-full h-[130px] cursor-pointer"></div>
+        <div className="hidden md:flex text-2xl m-3 w-[21rem] flex-col gap-4">
+          <div className="bg-[url(/board.png)] bg-contain bg-no-repeat bg-center bg-opacity-20 rounded-lg w-full h-[130px] cursor-pointer"></div>
           <div className="flex flex-col gap-2">
             <div>热门标签</div>
             <div className="text-sm flex gap-2 flex-wrap">
@@ -247,13 +248,77 @@ export default function Home() {
               ))}
             </div>
           </div>
-          <div>
-            <div>本周热门</div>
-            <div></div>
+          <div className="w-full">
+            <div className="flex gap-2 items-center justify-between">
+              <span>本周热门</span>
+              <div className="bg-[url(/arrow_r.png)] bg-center flex-1 h-4"></div>
+              <div className="text-[16px] bg-white text-[rgba(0,20,39,.5)] hover:text-white flex justify-center items-center transform duration-150 hover:bg-[#53b2f4] cursor-pointer rounded-full px-4 py-1">
+                <span>更多</span>
+                <IoIosArrowForward />
+              </div>
+            </div>
+            <div className="bg-white mt-3 rounded-xl">
+              <HorizontalCard
+                id="12"
+                imgurl="/elysia_3.png"
+                title="elysia"
+                username="ai"
+              />
+              <HorizontalCard
+                id="12"
+                imgurl="/elysia_3.png"
+                title="elysia"
+                username="ai"
+              />
+              <HorizontalCard
+                id="12"
+                imgurl="/elysia_3.png"
+                title="elysia"
+                username="ai"
+              />
+              <HorizontalCard
+                id="12"
+                imgurl="/elysia_3.png"
+                title="elysia"
+                username="ai"
+              />
+            </div>
           </div>
-          <div>
-            <div>最近上传</div>
-            <div></div>
+          <div className="w-full">
+            <div className="flex gap-2 items-center justify-between">
+              <span>最近上传</span>
+              <div className="bg-[url(/arrow_r.png)] bg-center flex-1 h-4"></div>
+              <div className="text-[16px] bg-white text-[rgba(0,20,39,.5)] hover:text-white flex justify-center items-center transform duration-150 hover:bg-[#53b2f4] cursor-pointer rounded-full px-4 py-1">
+                <span>更多</span>
+                <IoIosArrowForward />
+              </div>
+            </div>
+            <div className="bg-white mt-3 rounded-xl">
+              <HorizontalCard
+                id="12"
+                imgurl="/elysia_3.png"
+                title="elysia"
+                username="ai"
+              />
+              <HorizontalCard
+                id="12"
+                imgurl="/elysia_3.png"
+                title="elysia"
+                username="ai"
+              />
+              <HorizontalCard
+                id="12"
+                imgurl="/elysia_3.png"
+                title="elysia"
+                username="ai"
+              />
+              <HorizontalCard
+                id="12"
+                imgurl="/elysia_3.png"
+                title="elysia"
+                username="ai"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -272,6 +337,6 @@ export default function Home() {
           </div>
         </h1>
       </div>
-    </>
+    </div>
   );
 }
