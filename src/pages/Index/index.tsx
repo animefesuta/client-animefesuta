@@ -1,3 +1,4 @@
+import { Footer } from "@/components/footer";
 import { Navbar } from "@/components/navbar";
 import { Outlet } from "react-router-dom";
 export default function Index() {
@@ -12,6 +13,7 @@ export default function Index() {
     >
       <Navbar />
       <Outlet />
+      <Footer />
     </div>
   );
 }

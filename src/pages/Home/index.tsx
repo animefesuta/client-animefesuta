@@ -227,6 +227,32 @@ export default function Home() {
                 <IoIosArrowForward />
               </div>
             </h1>
+            <div className="grid grid-cols-2 gap-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+              {cardItem.map((item) => (
+                <VerticalCard {...item} key={item.id} />
+              ))}
+            </div>
+          </div>
+
+          {/* 推荐Coser */}
+          <div>
+            <h1 className="text-2xl flex gap-2 items-center justify-between m-3">
+              <span>推荐Coser</span>
+              <div className="bg-[url(/arrow_r.png)] bg-center flex-1 h-4"></div>
+              <div className="text-[16px] bg-white text-[rgba(0,20,39,.5)] hover:text-white flex justify-center items-center transform duration-150 hover:bg-[#53b2f4] cursor-pointer rounded-full px-4 py-1">
+                <IoRefresh />
+                <span>换一换</span>
+              </div>
+              <div className="text-[16px] bg-white text-[rgba(0,20,39,.5)] hover:text-white flex justify-center items-center transform duration-150 hover:bg-[#53b2f4] cursor-pointer rounded-full px-4 py-1">
+                <span>更多</span>
+                <IoIosArrowForward />
+              </div>
+            </h1>
+            <div className="grid grid-cols-2 gap-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+              {cardItem.map((item) => (
+                <VerticalCard {...item} key={item.id} />
+              ))}
+            </div>
           </div>
         </div>
 
@@ -321,21 +347,6 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </div>
-      <div className="md:mx-20 flex">
-        {/* 推荐Coser */}
-        <h1 className="text-2xl flex w-full gap-2 items-center justify-between m-3">
-          <span>推荐Coser</span>
-          <div className="bg-[url(/arrow_r.png)] bg-center flex-1 h-4"></div>
-          <div className="text-[16px] bg-white text-[rgba(0,20,39,.5)] hover:text-white flex justify-center items-center transform duration-150 hover:bg-[#53b2f4] cursor-pointer rounded-full px-4 py-1">
-            <IoRefresh />
-            <span>换一换</span>
-          </div>
-          <div className="text-[16px] bg-white text-[rgba(0,20,39,.5)] hover:text-white flex justify-center items-center transform duration-150 hover:bg-[#53b2f4] cursor-pointer rounded-full px-4 py-1">
-            <span>更多</span>
-            <IoIosArrowForward />
-          </div>
-        </h1>
       </div>
     </div>
   );
