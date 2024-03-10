@@ -3,7 +3,7 @@ import clsx from "clsx";
 import { Link, useNavigate } from "react-router-dom";
 import { FaSearch, FaUser } from "react-icons/fa";
 import { useUserStore } from "@/store/userStore";
-import { FC, useCallback } from "react";
+import { FC, useCallback, useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,6 +24,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { SignIn } from "../user/SignIn";
+import { LogIn } from "../user/LogIn";
 
 interface Link {
   name: string;
@@ -37,7 +39,9 @@ interface NavProps {
 }
 
 const PCNav: FC<NavProps> = ({ currentRoute, links }) => {
-  const { userloginstate, login, logout } = useUserStore();
+  const { userloginstate, logout } = useUserStore();
+  const [logInOpen, setLogInOpen] = useState(false);
+  const [signInOpen, setSignInOpen] = useState(false);
   const navigate = useNavigate();
 
   const logOut = useCallback(() => {
@@ -130,13 +134,28 @@ const PCNav: FC<NavProps> = ({ currentRoute, links }) => {
             </div>
           ) : (
             <div className="flex gap-5">
-              <Button onClick={login}>登录</Button>
+              <Button onClick={() => setLogInOpen(true)}>登录</Button>
               <span className="bg-gray-500 w-[1px]"></span>
-              <Button onClick={login}>注册</Button>
+              <Button onClick={() => setSignInOpen(true)}>注册</Button>
             </div>
           )}
         </div>
       </div>
+      <AlertDialog open={logInOpen}>
+        <AlertDialogContent>
+          <AlertDialogDescription>
+            <LogIn openDialog={setLogInOpen} />
+          </AlertDialogDescription>
+        </AlertDialogContent>
+      </AlertDialog>
+      <AlertDialog open={signInOpen}>
+        <AlertDialogContent>
+          <AlertDialogTitle>AnimeFusta 新建用户</AlertDialogTitle>
+          <AlertDialogDescription>
+            <SignIn openDialog={setSignInOpen} />
+          </AlertDialogDescription>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 };
