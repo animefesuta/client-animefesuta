@@ -4,6 +4,7 @@ import Live from "@/pages/Live";
 import NoPage from "@/pages/NoPage";
 import Pics from "@/pages/Pics";
 import Posts from "@/pages/Posts";
+import User from "@/pages/User";
 import { createBrowserRouter } from "react-router-dom";
 
 export const router = createBrowserRouter([
@@ -24,6 +25,20 @@ export const router = createBrowserRouter([
       {
         path: "/posts",
         element: <Posts />,
+      },
+      {
+        path: "/user",
+        element: <User />,
+        children: [
+          {
+            path: ":username",
+            element: <User />,
+          },
+          {
+            path: "workspace",
+            element: <User />,
+          },
+        ],
       },
     ],
   },

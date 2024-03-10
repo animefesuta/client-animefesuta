@@ -1,9 +1,29 @@
 import { Button } from "@/components/ui/button";
 import clsx from "clsx";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaSearch, FaUser } from "react-icons/fa";
 import { useUserStore } from "@/store/userStore";
-import { FC } from "react";
+import { FC, useCallback } from "react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 interface Link {
   name: string;
@@ -18,6 +38,12 @@ interface NavProps {
 
 const PCNav: FC<NavProps> = ({ currentRoute, links }) => {
   const { userloginstate, login, logout } = useUserStore();
+  const navigate = useNavigate();
+
+  const logOut = useCallback(() => {
+    logout();
+    navigate("/");
+  }, [navigate, logout]);
 
   return (
     <>
@@ -66,11 +92,41 @@ const PCNav: FC<NavProps> = ({ currentRoute, links }) => {
         {/* USER */}
         <div>
           {userloginstate ? (
-            <div
-              onClick={logout}
-              className="transform hover:text-2xl transition-all cursor-pointer bg-gray-200 p-3 rounded-full"
-            >
-              <FaUser />
+            <div>
+              <DropdownMenu>
+                <DropdownMenuTrigger>
+                  <FaUser className="cursor-pointer bg-gray-200 flex justify-center items-center w-10 h-10 p-2 rounded-full" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => navigate("/user")}>
+                    个人空间
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate("/user")}>
+                    我的作品
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={(e) => e.preventDefault()}>
+                    <AlertDialog>
+                      <AlertDialogTrigger>退出登录</AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>退出登录?</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            退出登录将会清除您未保存的内容并回到首页
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>取消</AlertDialogCancel>
+                          <AlertDialogAction onClick={() => logOut()}>
+                            继续
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           ) : (
             <div className="flex gap-5">
