@@ -15,6 +15,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
+import { useUserStore } from "@/store/userStore";
+
 interface LoginInProps {
   openDialog: (open: boolean) => void;
 }
@@ -29,6 +31,7 @@ const formSchema = z.object({
 });
 
 const LogIn: FC<LoginInProps> = ({ openDialog }) => {
+  const { login } = useUserStore();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -38,7 +41,10 @@ const LogIn: FC<LoginInProps> = ({ openDialog }) => {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    const res = login(values);
+    if (res === true) {
+      openDialog(false);
+    }
   }
 
   return (

@@ -15,6 +15,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
+import { useUserStore } from "@/store/userStore";
+
 interface SignInProps {
   openDialog: (open: boolean) => void;
 }
@@ -45,9 +47,13 @@ const SignIn: FC<SignInProps> = ({ openDialog }) => {
       repassword: "",
     },
   });
+  const { signin } = useUserStore();
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    const res = signin(values);
+    if (res === true) {
+      openDialog(false);
+    }
   }
 
   return (
