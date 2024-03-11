@@ -39,15 +39,15 @@ interface NavProps {
 }
 
 const PCNav: FC<NavProps> = ({ currentRoute, links }) => {
-  const { userloginstate, logout } = useUserStore();
+  const { userloginstate, userLogout, userInfo } = useUserStore();
   const [logInOpen, setLogInOpen] = useState(false);
   const [signInOpen, setSignInOpen] = useState(false);
   const navigate = useNavigate();
 
   const logOut = useCallback(() => {
-    logout();
+    userLogout();
     navigate("/");
-  }, [navigate, logout]);
+  }, [navigate, userLogout]);
 
   return (
     <>
@@ -102,7 +102,7 @@ const PCNav: FC<NavProps> = ({ currentRoute, links }) => {
                   <FaUser className="cursor-pointer bg-gray-200 flex justify-center items-center w-10 h-10 p-2 rounded-full" />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
-                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuLabel>{userInfo.nickname}</DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={() => navigate("/user")}>
                     个人空间

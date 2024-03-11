@@ -22,29 +22,28 @@ interface LoginInProps {
 }
 
 const formSchema = z.object({
-  username: z.string().min(8, {
-    message: "用户名需要至少 8 个字符.",
-  }),
+  useremail: z.string().email({ message: "请输入正确的邮箱地址." }),
   password: z.string().min(8, {
     message: "密码需要至少 8 个字符.",
   }),
 });
 
 const LogIn: FC<LoginInProps> = ({ openDialog }) => {
-  const { login } = useUserStore();
+  const { userLogin } = useUserStore();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
+      useremail: "",
       password: "",
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    const res = login(values);
-    if (res === true) {
-      openDialog(false);
-    }
+    userLogin(values).then((res) => {
+      if (res === true) {
+        openDialog(false);
+      }
+    });
   }
 
   return (
@@ -52,12 +51,12 @@ const LogIn: FC<LoginInProps> = ({ openDialog }) => {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
-          name="username"
+          name="useremail"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>用户名</FormLabel>
+              <FormLabel>邮箱</FormLabel>
               <FormControl>
-                <Input placeholder="输入用户名..." {...field} />
+                <Input placeholder="输入邮箱..." {...field} />
               </FormControl>
               {/* <FormDescription>
                 This is your public display name.

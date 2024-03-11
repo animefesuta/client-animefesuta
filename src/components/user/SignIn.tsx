@@ -23,9 +23,8 @@ interface SignInProps {
 
 const formSchema = z
   .object({
-    username: z.string().min(8, {
-      message: "用户名需要至少 8 个字符.",
-    }),
+    username: z.string().min(1, { message: "用户名不能为空." }),
+    useremail: z.string().email({ message: "请输入正确的邮箱地址." }),
     password: z.string().min(8, {
       message: "密码需要至少 8 个字符.",
     }),
@@ -43,17 +42,19 @@ const SignIn: FC<SignInProps> = ({ openDialog }) => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       username: "",
+      useremail: "",
       password: "",
       repassword: "",
     },
   });
-  const { signin } = useUserStore();
+  const { userSignin } = useUserStore();
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    const res = signin(values);
-    if (res === true) {
-      openDialog(false);
-    }
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    userSignin(values).then((res) => {
+      if (res === true) {
+        openDialog(true);
+      }
+    });
   }
 
   return (
@@ -67,6 +68,22 @@ const SignIn: FC<SignInProps> = ({ openDialog }) => {
               <FormLabel>用户名</FormLabel>
               <FormControl>
                 <Input placeholder="输入用户名..." {...field} />
+              </FormControl>
+              {/* <FormDescription>
+                This is your public display name.
+              </FormDescription> */}
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="useremail"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>邮箱</FormLabel>
+              <FormControl>
+                <Input placeholder="输入邮箱..." {...field} />
               </FormControl>
               {/* <FormDescription>
                 This is your public display name.
