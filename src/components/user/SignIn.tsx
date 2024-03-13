@@ -19,6 +19,7 @@ import { useUserStore } from "@/store/userStore";
 
 interface SignInProps {
   openDialog: (open: boolean) => void;
+  openLogin: () => void;
 }
 
 const formSchema = z
@@ -37,7 +38,7 @@ const formSchema = z
     path: ["repassword"],
   });
 
-const SignIn: FC<SignInProps> = ({ openDialog }) => {
+const SignIn: FC<SignInProps> = ({ openDialog, openLogin }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -52,7 +53,8 @@ const SignIn: FC<SignInProps> = ({ openDialog }) => {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     userSignin(values).then((res) => {
       if (res === true) {
-        openDialog(true);
+        openDialog(false);
+        openLogin();
       }
     });
   }

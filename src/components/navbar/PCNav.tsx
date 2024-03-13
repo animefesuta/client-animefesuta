@@ -152,7 +152,10 @@ const PCNav: FC<NavProps> = ({ currentRoute, links }) => {
         <AlertDialogContent>
           <AlertDialogTitle>AnimeFusta 新建用户</AlertDialogTitle>
           <AlertDialogDescription>
-            <SignIn openDialog={setSignInOpen} />
+            <SignIn
+              openDialog={setSignInOpen}
+              openLogin={() => setLogInOpen(true)}
+            />
           </AlertDialogDescription>
         </AlertDialogContent>
       </AlertDialog>
