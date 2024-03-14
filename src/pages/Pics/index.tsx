@@ -32,160 +32,32 @@ export default function Pics() {
 
   const [blankItem, setBlankItem] = useState<CardProps[]>([]);
 
-  const [authors, setAuthor] = useState<Author[]>([]);
+  const [authors, setAuthors] = useState<Author[]>([]);
 
   useEffect(() => {
-    setCarouselItem(() => [
-      {
-        name: "elysia_1",
+    setCarouselItem(() =>
+      Array.from({ length: 3 }, (_, i) => ({
+        name: `elysia${i}`,
         url: "/elysia_1.jpg",
-      },
-      {
-        name: "elysia_2",
-        url: "/elysia_2.jpg",
-      },
-      {
-        name: "elysia_3",
-        url: "/elysia_3.png",
-      },
-      {
-        name: "elysia_4",
-        url: "/elysia_4.png",
-      },
-    ]);
+      }))
+    );
 
-    setAuthor(() => [
-      {
-        authorname: "elysia",
-        authorid: "elysia",
+    setAuthors(() =>
+      Array.from({ length: 3 }, (_, i) => ({
+        authorname: `elysia${i}`,
+        authorid: `elysia${i}`,
         authorimage: "/txmascot.png",
-      },
-      {
-        authorname: "elysia1",
-        authorid: "elysia1",
-        authorimage: "/txmascot.png",
-      },
-      {
-        authorname: "elysia2",
-        authorid: "elysia2",
-        authorimage: "/txmascot.png",
-      },
-      {
-        authorname: "elysia3",
-        authorid: "elysia3",
-        authorimage: "/txmascot.png",
-      },
-      {
-        authorname: "elysia3",
-        authorid: "elysia4",
-        authorimage: "/txmascot.png",
-      },
-      {
-        authorname: "elysia3",
-        authorid: "elysia5",
-        authorimage: "/txmascot.png",
-      },
-      {
-        authorname: "elysia3",
-        authorid: "elysia6",
-        authorimage: "/txmascot.png",
-      },
-      {
-        authorname: "elysia3",
-        authorid: "elysia7",
-        authorimage: "/txmascot.png",
-      },
-      {
-        authorname: "elysia3",
-        authorid: "elysia8",
-        authorimage: "/txmascot.png",
-      },
-      {
-        authorname: "elysia3",
-        authorid: "elysia9",
-        authorimage: "/txmascot.png",
-      },
-      {
-        authorname: "elysia3",
-        authorid: "elysia10",
-        authorimage: "/txmascot.png",
-      },
-    ]);
+      }))
+    );
 
-    setBlankItem(() => [
-      {
+    setBlankItem(() =>
+      Array.from({ length: 10 }, (_, i) => ({
         cardTitle: "返图",
-        cardId: "1",
+        cardId: `${i}`,
         cardType: "返图",
         cardUrl: "/elysia_1.jpg",
-      },
-      {
-        cardTitle: "返图",
-        cardId: "2",
-        cardType: "返图",
-        cardUrl: "/elysia_1.jpg",
-      },
-      {
-        cardTitle: "返图",
-        cardId: "3",
-        cardType: "返图",
-        cardUrl: "/elysia_1.jpg",
-      },
-      {
-        cardTitle: "返图",
-        cardId: "4",
-        cardType: "返图",
-        cardUrl: "/elysia_1.jpg",
-      },
-      {
-        cardTitle: "返图",
-        cardId: "5",
-        cardType: "返图",
-        cardUrl: "/elysia_1.jpg",
-      },
-      {
-        cardTitle: "返图",
-        cardId: "6",
-        cardType: "返图",
-        cardUrl: "/elysia_1.jpg",
-      },
-      {
-        cardTitle: "返图",
-        cardId: "7",
-        cardType: "返图",
-        cardUrl: "/elysia_1.jpg",
-      },
-      {
-        cardTitle: "返图",
-        cardId: "8",
-        cardType: "返图",
-        cardUrl: "/elysia_1.jpg",
-      },
-      {
-        cardTitle: "返图",
-        cardId: "9",
-        cardType: "返图",
-        cardUrl: "/elysia_1.jpg",
-      },
-      {
-        cardTitle: "返图",
-        cardId: "10",
-        cardType: "返图",
-        cardUrl: "/elysia_1.jpg",
-      },
-      {
-        cardTitle: "返图",
-        cardId: "11",
-        cardType: "返图",
-        cardUrl: "/elysia_1.jpg",
-      },
-      {
-        cardTitle: "返图",
-        cardId: "12",
-        cardType: "返图",
-        cardUrl: "/elysia_1.jpg",
-      },
-    ]);
+      }))
+    );
   }, []);
 
   return (
