@@ -62,7 +62,13 @@ const PCNav: FC<NavProps> = ({ currentRoute, links }) => {
 
         {/* LINK */}
         {links.map((item) => {
-          if (item.name === "返图" && userloginstate === false) return null;
+          if (
+            (item.name === "返图" ||
+              item.name === "直播" ||
+              item.name === "论坛") &&
+            userloginstate === false
+          )
+            return null;
           return (
             <Link key={item.name} to={item.path}>
               <Button
