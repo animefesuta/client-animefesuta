@@ -13,11 +13,17 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { PencilRuler } from "lucide-react";
 import { BlankCard } from "./_components/BlankCard";
 import { IoRefresh } from "react-icons/io5";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 interface CardProps {
   cardTitle: string;
   cardId: string;
   cardType: string;
   cardUrl: string;
+}
+interface Author {
+  authorname: string;
+  authorid: string;
+  authorimage: string;
 }
 export default function Pics() {
   const [carouselItem, setCarouselItem] = useState<
@@ -25,6 +31,8 @@ export default function Pics() {
   >([]);
 
   const [blankItem, setBlankItem] = useState<CardProps[]>([]);
+
+  const [authors, setAuthor] = useState<Author[]>([]);
 
   useEffect(() => {
     setCarouselItem(() => [
@@ -46,6 +54,64 @@ export default function Pics() {
       },
     ]);
 
+    setAuthor(() => [
+      {
+        authorname: "elysia",
+        authorid: "elysia",
+        authorimage: "/txmascot.png",
+      },
+      {
+        authorname: "elysia1",
+        authorid: "elysia1",
+        authorimage: "/txmascot.png",
+      },
+      {
+        authorname: "elysia2",
+        authorid: "elysia2",
+        authorimage: "/txmascot.png",
+      },
+      {
+        authorname: "elysia3",
+        authorid: "elysia3",
+        authorimage: "/txmascot.png",
+      },
+      {
+        authorname: "elysia3",
+        authorid: "elysia4",
+        authorimage: "/txmascot.png",
+      },
+      {
+        authorname: "elysia3",
+        authorid: "elysia5",
+        authorimage: "/txmascot.png",
+      },
+      {
+        authorname: "elysia3",
+        authorid: "elysia6",
+        authorimage: "/txmascot.png",
+      },
+      {
+        authorname: "elysia3",
+        authorid: "elysia7",
+        authorimage: "/txmascot.png",
+      },
+      {
+        authorname: "elysia3",
+        authorid: "elysia8",
+        authorimage: "/txmascot.png",
+      },
+      {
+        authorname: "elysia3",
+        authorid: "elysia9",
+        authorimage: "/txmascot.png",
+      },
+      {
+        authorname: "elysia3",
+        authorid: "elysia10",
+        authorimage: "/txmascot.png",
+      },
+    ]);
+
     setBlankItem(() => [
       {
         cardTitle: "返图",
@@ -55,67 +121,67 @@ export default function Pics() {
       },
       {
         cardTitle: "返图",
-        cardId: "1",
+        cardId: "2",
         cardType: "返图",
         cardUrl: "/elysia_1.jpg",
       },
       {
         cardTitle: "返图",
-        cardId: "1",
+        cardId: "3",
         cardType: "返图",
         cardUrl: "/elysia_1.jpg",
       },
       {
         cardTitle: "返图",
-        cardId: "1",
+        cardId: "4",
         cardType: "返图",
         cardUrl: "/elysia_1.jpg",
       },
       {
         cardTitle: "返图",
-        cardId: "1",
+        cardId: "5",
         cardType: "返图",
         cardUrl: "/elysia_1.jpg",
       },
       {
         cardTitle: "返图",
-        cardId: "1",
+        cardId: "6",
         cardType: "返图",
         cardUrl: "/elysia_1.jpg",
       },
       {
         cardTitle: "返图",
-        cardId: "1",
+        cardId: "7",
         cardType: "返图",
         cardUrl: "/elysia_1.jpg",
       },
       {
         cardTitle: "返图",
-        cardId: "1",
+        cardId: "8",
         cardType: "返图",
         cardUrl: "/elysia_1.jpg",
       },
       {
         cardTitle: "返图",
-        cardId: "1",
+        cardId: "9",
         cardType: "返图",
         cardUrl: "/elysia_1.jpg",
       },
       {
         cardTitle: "返图",
-        cardId: "1",
+        cardId: "10",
         cardType: "返图",
         cardUrl: "/elysia_1.jpg",
       },
       {
         cardTitle: "返图",
-        cardId: "1",
+        cardId: "11",
         cardType: "返图",
         cardUrl: "/elysia_1.jpg",
       },
       {
         cardTitle: "返图",
-        cardId: "1",
+        cardId: "12",
         cardType: "返图",
         cardUrl: "/elysia_1.jpg",
       },
@@ -170,7 +236,7 @@ export default function Pics() {
         <h1 className="text-2xl w-full m-3">
           <span className="text-[32px]">为你推荐</span>
         </h1>
-        <ScrollArea className="whitespace-nowrap rounded-md border">
+        <ScrollArea className="whitespace-nowrap">
           <div className="flex w-max space-x-4 p-4">
             {blankItem.map((item) => {
               return <BlankCard key={item.cardId} {...item} />;
@@ -179,22 +245,46 @@ export default function Pics() {
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
       </div>
-      {/* 最近上传 */}
-      <div className="flex flex-col px-24 my-6">
-        <h1 className="text-2xl flex gap-2 items-center m-3">
-          <span className="text-[32px]">最近上传</span>
-          <div className="text-[16px] text-[rgba(0,20,39,.5)] py-1">
-            <span>{new Date().toLocaleDateString()}</span>
-          </div>
-        </h1>
-        <ScrollArea className="whitespace-nowrap rounded-md border">
-          <div className="flex w-max space-x-4 p-4">
-            {blankItem.map((item) => {
-              return <BlankCard key={item.cardId} {...item} />;
-            })}
-          </div>
-          <ScrollBar orientation="horizontal" />
-        </ScrollArea>
+      <div className="flex px-24 gap-3 w-full">
+        {/* 热门作者 */}
+        <div className="flex flex-col my-6">
+          <h1 className="text-2xl flex gap-2 items-center m-3">
+            <span className="text-[32px]">热门作者</span>
+          </h1>
+          <ScrollArea className="h-[332px] w-48">
+            <div className="grid grid-cols-2 gap-3 p-2">
+              {authors.map((item) => (
+                <div
+                  key={item.authorid}
+                  className="flex hover:bg-sky-100 p-2 flex-col items-center justify-center"
+                >
+                  <Avatar>
+                    <AvatarImage src={item.authorimage} alt={item.authorname} />
+                    <AvatarFallback>{item.authorname}</AvatarFallback>
+                  </Avatar>
+                  <div>{item.authorname}</div>
+                </div>
+              ))}
+            </div>
+          </ScrollArea>
+        </div>
+        {/* 最近上传 */}
+        <div className="flex flex-col my-6 w-[calc(100%-204px)]">
+          <h1 className="text-2xl flex gap-2 items-center m-3">
+            <span className="text-[32px]">最近上传</span>
+            <div className="text-[16px] text-[rgba(0,20,39,.5)]">
+              <span>~{new Date().toLocaleDateString()}</span>
+            </div>
+          </h1>
+          <ScrollArea className="w-full whitespace-nowrap">
+            <div className="flex w-max space-x-4 p-4">
+              {blankItem.map((item) => {
+                return <BlankCard key={item.cardId} {...item} />;
+              })}
+            </div>
+            <ScrollBar orientation="horizontal" />
+          </ScrollArea>
+        </div>
       </div>
 
       {/* AI绘图 */}
@@ -206,7 +296,7 @@ export default function Pics() {
             <span>换一换</span>
           </div>
         </h1>
-        <ScrollArea className="whitespace-nowrap rounded-md border">
+        <ScrollArea className="whitespace-nowrap">
           <div className="flex w-max space-x-4 p-4">
             {blankItem.map((item) => {
               return <BlankCard key={item.cardId} {...item} />;
