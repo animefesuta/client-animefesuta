@@ -6,7 +6,7 @@ interface TagProps {
 
 const Tag: React.FC<TagProps> = ({ tagId, tagValue, tagColor }) => {
   return (
-    <span
+    <button
       style={{
         backgroundColor: tagColor,
       }}
@@ -16,7 +16,7 @@ const Tag: React.FC<TagProps> = ({ tagId, tagValue, tagColor }) => {
       }}
     >
       {tagValue}
-    </span>
+    </button>
   );
 };
 export default Tag;
