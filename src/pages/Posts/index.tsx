@@ -1,6 +1,4 @@
 import { GoThumbsup } from "react-icons/go";
-import { Skeleton } from "@/components/ui/skeleton";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { AiOutlineNumber } from "react-icons/ai";
 import { IoCameraOutline } from "react-icons/io5";
 import { GiSesame } from "react-icons/gi";
@@ -8,101 +6,138 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useEffect, useState } from "react";
+import { SubSwitch } from "./_components/SubSwitch";
+
+const subSwitchs = [
+  {
+    id: 0,
+    title: "推荐",
+    icon: <GoThumbsup />,
+  },
+  {
+    id: 1,
+    title: "杂谈",
+    icon: <AiOutlineNumber />,
+  },
+  {
+    id: 2,
+    title: "摄影",
+    icon: <IoCameraOutline />,
+  },
+  {
+    id: 3,
+    title: "同人",
+    icon: <GiSesame />,
+  },
+];
+
+const rankSwitchs = [
+  {
+    id: 0,
+    title: "今天",
+  },
+  {
+    id: 1,
+    title: "本周",
+  },
+  {
+    id: 2,
+    title: "本月",
+  },
+];
+
 export default function Posts() {
+  // 排行榜
   const [ranks, setRanks] = useState<{ id: number; title: string }[]>([]);
+  // 文章
+  const [sub, setSub] = useState<
+    {
+      id: number;
+      title: string;
+      author: string;
+      date: string;
+      content: string;
+    }[]
+  >([]);
   const [currentRank, setCurrentRank] = useState<number>(0);
-  const getRanks = (rank: number, currentRank: number) => {
+  const [currentSub, setCurrentSub] = useState<number>(0);
+
+  const getRanks = (rank: number) => {
+    setCurrentRank(rank);
+  };
+
+  const getSub = (sub: number) => {
+    setCurrentSub(sub);
+  };
+
+  useEffect(() => {
     setRanks(
-      Array.from({ length: rank }, (_, i) => ({
+      Array.from({ length: currentRank }, (_, i) => ({
         id: i,
         title: `标题标题标题标题标题标题标题标题标题标题标题${i}`,
       }))
     );
-    setCurrentRank(currentRank);
-  };
+    setSub(
+      Array.from({ length: currentSub }, (_, i) => ({
+        id: i,
+        title: `标题标题标题标题标题标题标题标题标题标题标题`,
+        author: "作者",
+        date: "2022-01-01",
+        content:
+          "dsadhasudhsdkahdkdsadhasudhsdkahdkdsadhasudhsdkahdkdsadhasudhsdkahdkdsadhasudhsdkahdkdsadhasudhsdkahdkdsadhasudhsdkahdk",
+      }))
+    );
+  }, [currentRank, currentSub]);
 
-  useEffect(() => {
-    getRanks(10, 0);
-  }, []);
   return (
-    <div className="flex px-12 py-3 gap-5 justify-around h-[calc(100vh-144px)]">
-      <div className="min-w-fit w-[10%] flex flex-col my-8 gap-2">
-        {/* 推荐 */}
-        <div className="flex gap-2 h-12 text-[15px] items-center cursor-pointer">
-          <GoThumbsup size={20} />
-          <span>推荐</span>
-        </div>
-        {/* 杂谈 */}
-        <div className="flex gap-2 h-12 text-[15px] items-center cursor-pointer">
-          <AiOutlineNumber size={20} />
-          <span>杂谈</span>
-        </div>
-        {/* 摄影 */}
-        <div className="flex gap-2 h-12 text-[15px] items-center cursor-pointer">
-          <IoCameraOutline size={20} />
-          <span>摄影</span>
-        </div>
-        {/* 摄影 */}
-        <div className="flex gap-2 h-12 text-[15px] items-center cursor-pointer">
-          <GiSesame size={20} />
-          <span>同人</span>
-        </div>
+    <div className="flex px-12 py-3 gap-5 justify-around">
+      <div className="w-[12%] min-w-[12%] flex flex-col my-8 gap-2">
+        {subSwitchs.map((item) => (
+          <SubSwitch
+            key={item.id}
+            sub={item.id}
+            currentSub={currentSub}
+            getSub={getSub}
+            iconel={() => item.icon}
+          />
+        ))}
       </div>
-      <div className="flex flex-col h-full flex-1">
+      <div className="flex flex-col h-full w-[70%] min-w-[70% ] max-w-[70%]">
         <div className="text-xl font-bold">推荐文章</div>
         {/* 文章列表 */}
-        <div className="w-full h-full bg-white px-2">
-          <ScrollArea className="h-full w-full">
-            <div className="flex gap-2 my-2">
-              <Skeleton className="h-[125px] w-[350px] rounded-xl" />
-              <div className="space-y-2 flex-col flex justify-evenly  w-full">
-                <Skeleton className="h-12 w-full" />
-                <Skeleton className="h-4 w-[200px]" />
-                <Skeleton className="h-4 w-full" />
+        <div className="h-full bg-white px-2">
+          {sub.map((item) => (
+            <div key={item.id} className="flex gap-2 my-2 cursor-pointer">
+              <div className="flex w-full gap-2">
+                <div className="h-[125px] w-[250px] rounded-xl bg-sky-300" />
+                <div className="flex flex-col truncate">
+                  <div className="text-lg font-bold mb-5">{item.title}</div>
+                  <div className="text-sm text-gray-400">{item.author}</div>
+                  <div className="text-sm text-gray-400">{item.date}</div>
+                  <div className="text-sm text-gray-400 truncate">
+                    {item.content}
+                  </div>
+                </div>
               </div>
             </div>
-          </ScrollArea>
+          ))}
         </div>
       </div>
-      <div className="w-[20%]">
+      <div className="w-[18%] min-w-[18%]">
         <div>
           <div className="flex h-5 items-center text-sm">
             <div className="text-xl font-bold min-w-fit">排行榜</div>
-            <Button
-              disabled={currentRank === 0}
-              size="sm"
-              variant="link"
-              onClick={() => getRanks(10, 0)}
-            >
-              昨天
-            </Button>
-            <Separator orientation="vertical" />
-            <Button
-              disabled={currentRank === 1}
-              size="sm"
-              variant="link"
-              onClick={() => getRanks(3, 1)}
-            >
-              前天
-            </Button>
-            <Separator orientation="vertical" />
-            <Button
-              disabled={currentRank === 2}
-              size="sm"
-              variant="link"
-              onClick={() => getRanks(5, 2)}
-            >
-              周榜
-            </Button>
-            <Separator orientation="vertical" />
-            <Button
-              disabled={currentRank === 3}
-              size="sm"
-              variant="link"
-              onClick={() => getRanks(8, 3)}
-            >
-              月榜
-            </Button>
+            {rankSwitchs.map((item) => (
+              <Button
+                disabled={currentRank === item.id}
+                key={item.id}
+                size="sm"
+                variant="link"
+                onClick={() => getRanks(item.id)}
+              >
+                {item.title}
+              </Button>
+            ))}
           </div>
           <Separator className="my-1" />
         </div>
