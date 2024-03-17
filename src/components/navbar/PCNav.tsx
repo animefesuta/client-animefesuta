@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { SignIn } from "../user/SignIn";
 import { LogIn } from "../user/LogIn";
+import { Cloud, CreditCard, LifeBuoy, LogOut, User } from "lucide-react";
 
 interface Link {
   name: string;
@@ -107,14 +108,16 @@ const PCNav: FC<NavProps> = ({ currentRoute, links }) => {
                 <DropdownMenuTrigger>
                   <FaUser className="cursor-pointer bg-gray-200 flex justify-center items-center w-10 h-10 p-2 rounded-full" />
                 </DropdownMenuTrigger>
-                <DropdownMenuContent>
+                <DropdownMenuContent className="w-48">
                   <DropdownMenuLabel>{userInfo.nickname}</DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={() => navigate("/user")}>
-                    个人空间
+                    <User className="mr-2 h-4 w-4" />
+                    <span>个人空间</span>
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => navigate("/user")}>
-                    我的作品
+                  <DropdownMenuItem onClick={() => navigate("/")}>
+                    <CreditCard className="mr-2 h-4 w-4" />
+                    <span>订单</span>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={() => navigate("/")}>
@@ -124,9 +127,21 @@ const PCNav: FC<NavProps> = ({ currentRoute, links }) => {
                     Coser认证
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => navigate("/")}>
+                    <LifeBuoy className="mr-2 h-4 w-4" />
+                    <span>服务支持</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate("/")} disabled>
+                    <Cloud className="mr-2 h-4 w-4" />
+                    <span>API</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={(e) => e.preventDefault()}>
                     <AlertDialog>
-                      <AlertDialogTrigger>退出登录</AlertDialogTrigger>
+                      <AlertDialogTrigger className="flex justify-center items-center">
+                        <LogOut className="mr-2 h-4 w-4" />
+                        <span>退出登录</span>
+                      </AlertDialogTrigger>
                       <AlertDialogContent>
                         <AlertDialogHeader>
                           <AlertDialogTitle>退出登录?</AlertDialogTitle>

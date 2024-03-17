@@ -14,14 +14,8 @@ import {
   CreditCard,
   LifeBuoy,
   LogOut,
-  Mail,
-  MessageSquare,
-  Plus,
-  PlusCircle,
   Settings,
   User,
-  UserPlus,
-  Users,
 } from "lucide-react";
 
 import {
@@ -30,21 +24,30 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuPortal,
   DropdownMenuSeparator,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
 import { FaSearch } from "react-icons/fa";
 import { Separator } from "@/components/ui/separator";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import clsx from "clsx";
-import { FC } from "react";
+import { FC, useCallback, useState } from "react";
 import { useUserStore } from "@/store/userStore";
 import { Button } from "../ui/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "../ui/alert-dialog";
+import { LogIn } from "../user/LogIn";
+import { SignIn } from "../user/SignIn";
 interface Link {
   name: string;
   _name: string;
@@ -57,7 +60,15 @@ interface NavProps {
 }
 
 const MobileNav: FC<NavProps> = ({ currentRoute, links }) => {
-  const { userloginstate, login, logout } = useUserStore();
+  const { userloginstate, userLogout, userInfo } = useUserStore();
+  const [logInOpen, setLogInOpen] = useState(false);
+  const [signInOpen, setSignInOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const logOut = useCallback(() => {
+    userLogout();
+    navigate("/");
+  }, [navigate, userLogout]);
 
   return (
     <Sheet>
@@ -78,12 +89,12 @@ const MobileNav: FC<NavProps> = ({ currentRoute, links }) => {
             </DropdownMenuTrigger>
             <Button
               className={clsx(userloginstate ? "hidden" : "")}
-              onClick={login}
+              onClick={() => setLogInOpen(true)}
             >
               登录
             </Button>
             <DropdownMenuContent className="w-56">
-              <DropdownMenuLabel>username</DropdownMenuLabel>
+              <DropdownMenuLabel>{userInfo.nickname}</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
                 <DropdownMenuItem>
@@ -102,7 +113,7 @@ const MobileNav: FC<NavProps> = ({ currentRoute, links }) => {
                   {/* <DropdownMenuShortcut>⌘S</DropdownMenuShortcut> */}
                 </DropdownMenuItem>
               </DropdownMenuGroup>
-              <DropdownMenuSeparator />
+              {/* <DropdownMenuSeparator />
               <DropdownMenuGroup>
                 <DropdownMenuItem>
                   <Users className="mr-2 h-4 w-4" />
@@ -134,9 +145,15 @@ const MobileNav: FC<NavProps> = ({ currentRoute, links }) => {
                 <DropdownMenuItem>
                   <Plus className="mr-2 h-4 w-4" />
                   <span>新建团队</span>
-                  {/* <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut> */}
                 </DropdownMenuItem>
-              </DropdownMenuGroup>
+              </DropdownMenuGroup> */}
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <span>商家认证</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <span>Coser认证</span>
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
 
               <DropdownMenuItem>
@@ -148,15 +165,51 @@ const MobileNav: FC<NavProps> = ({ currentRoute, links }) => {
                 <span>API</span>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <LogOut className="mr-2 h-4 w-4" />
-                <span onClick={logout}>退出登录</span>
-                {/* <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut> */}
+              <DropdownMenuItem onClick={(e) => e.preventDefault()}>
+                <AlertDialog>
+                  <AlertDialogTrigger className="flex justify-center items-center">
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>退出登录</span>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>退出登录?</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        退出登录将会清除您未保存的内容并回到首页
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>取消</AlertDialogCancel>
+                      <AlertDialogAction onClick={() => logOut()}>
+                        继续
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
       </div>
+
+      <AlertDialog open={logInOpen}>
+        <AlertDialogContent>
+          <AlertDialogDescription>
+            <LogIn openDialog={setLogInOpen} />
+          </AlertDialogDescription>
+        </AlertDialogContent>
+      </AlertDialog>
+      <AlertDialog open={signInOpen}>
+        <AlertDialogContent>
+          <AlertDialogTitle>AnimeFusta 新建用户</AlertDialogTitle>
+          <AlertDialogDescription>
+            <SignIn
+              openDialog={setSignInOpen}
+              openLogin={() => setLogInOpen(true)}
+            />
+          </AlertDialogDescription>
+        </AlertDialogContent>
+      </AlertDialog>
 
       <SheetContent side={"left"}>
         <SheetHeader className={clsx(userloginstate ? "" : "hidden")}>
@@ -168,7 +221,7 @@ const MobileNav: FC<NavProps> = ({ currentRoute, links }) => {
               </AvatarFallback>
             </Avatar>
           </SheetTitle>
-          <SheetDescription>username</SheetDescription>
+          <SheetDescription>{userInfo.nickname}</SheetDescription>
         </SheetHeader>
         <div>
           <div className="flex items-center rounded overflow-hidden py-3">
