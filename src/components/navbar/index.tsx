@@ -7,7 +7,7 @@ const Navbar: FC = () => {
   const { pathname } = useLocation();
   const links = [
     {
-      name: "茵蒂克丝",
+      name: "首页",
       _name: "Index",
       path: "/",
     },

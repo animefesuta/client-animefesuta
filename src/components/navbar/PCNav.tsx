@@ -116,6 +116,14 @@ const PCNav: FC<NavProps> = ({ currentRoute, links }) => {
                   <DropdownMenuItem onClick={() => navigate("/user")}>
                     我的作品
                   </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => navigate("/")}>
+                    商家认证
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate("/")}>
+                    Coser认证
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={(e) => e.preventDefault()}>
                     <AlertDialog>
                       <AlertDialogTrigger>退出登录</AlertDialogTrigger>
