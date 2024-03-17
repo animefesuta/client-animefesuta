@@ -2,12 +2,14 @@ import clsx from "clsx";
 interface SubSwitchProps {
   sub: number;
   currentSub: number;
+  title: string;
   getSub: (sub: number) => void;
   iconel: () => JSX.Element;
 }
 
 const SubSwitch: React.FC<SubSwitchProps> = ({
   sub,
+  title,
   currentSub,
   getSub,
   iconel,
@@ -22,7 +24,7 @@ const SubSwitch: React.FC<SubSwitchProps> = ({
       onClick={() => getSub(sub)}
     >
       {iconel()}
-      <span>推荐</span>
+      <span>{title}</span>
     </button>
   );
 };

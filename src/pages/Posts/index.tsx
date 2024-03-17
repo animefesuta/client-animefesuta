@@ -96,14 +96,15 @@ export default function Posts() {
           <SubSwitch
             key={item.id}
             sub={item.id}
+            title={item.title}
             currentSub={currentSub}
             getSub={getSub}
             iconel={() => item.icon}
           />
         ))}
       </div>
-      <div className="flex flex-col h-full w-[70%] min-w-[70% ] max-w-[70%]">
-        <div className="text-xl font-bold">推荐文章</div>
+      <div className="flex flex-col h-full w-[70%] min-w-[70%] max-w-[70%]">
+        <div className="text-xl font-bold">{subSwitchs[currentSub].title}</div>
         {/* 文章列表 */}
         <div className="h-full bg-white px-2">
           {sub.map((item) => (
