@@ -10,10 +10,10 @@ import { useEffect, useState } from "react";
 
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
-import { PencilRuler } from "lucide-react";
 import { BlankCard } from "./_components/BlankCard";
 import { IoRefresh } from "react-icons/io5";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import PicsPost from "./_components/PicsPost";
 interface CardProps {
   cardTitle: string;
   cardId: string;
@@ -98,10 +98,8 @@ export default function Pics() {
       </div>
       <div className="flex items-center md:mx-24 md:my-3">
         <div className="flex-1 h-2 m-2"></div>
-        <div className="py-2 px-14 text-white rounded-md flex gap-2 items-center text-[24px] justify-center bg-sky-400 hover:bg-sky-300 cursor-pointer transition-all">
-          <PencilRuler size={26} />
-          <div>我要返图</div>
-        </div>
+        {/* 我要返图 */}
+        <PicsPost />
       </div>
       {/* 为你推荐 */}
       <div className="flex flex-col px-24">
