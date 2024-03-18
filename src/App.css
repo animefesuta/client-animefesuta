@@ -1,3 +1,12 @@
 *{
     font-family: 'misans';
 }
+
+::-webkit-scrollbar {
+    width: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgb(125,211,252);
+    border-radius: 10px;
+}
