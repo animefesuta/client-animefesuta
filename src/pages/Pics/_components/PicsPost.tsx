@@ -24,6 +24,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { ImageUpload } from "@/components/cards/ImageUpload";
+import { postpic } from "@/api/pic";
+import { PicForm } from "@/api/pic/types";
 
 const formSchema = z.object({
   file: z.array(z.any()).min(1, { message: "请选择至少一张图片." }),
@@ -45,10 +47,12 @@ const PicsPost = () => {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    postpic(values as unknown as PicForm).then((res) => {
+      console.log(res);
+    });
   }
 
-  function lookImageChange(e: File[]) {
+  function lookImageChange(e: { id: string; url: string }[]) {
     form.setValue("file", e);
   }
   return (

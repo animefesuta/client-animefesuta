@@ -4,15 +4,17 @@ import { JSX } from "react/jsx-runtime";
 import * as React from "react";
 import { IoCloseCircle } from "react-icons/io5";
 import clsx from "clsx";
+import { imageupload } from "@/api/pic";
+import { ImageProps } from "./types";
 
 export interface UploadProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
-  lookImageChange: (fileList: File[]) => void;
+  lookImageChange: (fileList: { id: string; url: string }[]) => void;
 }
 
 const ImageUpload = React.forwardRef<HTMLInputElement, UploadProps>(
   ({ className, type, lookImageChange, ...props }, ref) => {
-    const [fileList, setFileList] = useState<File[]>([]);
+    const [fileList, setFileList] = useState<{ id: string; url: string }[]>([]);
 
     useEffect(() => {
       lookImageChange(fileList);
@@ -32,12 +34,14 @@ const ImageUpload = React.forwardRef<HTMLInputElement, UploadProps>(
                 "grid gap-3"
               )}
             >
-              {fileList.map((file) => (
-                <div key={file.name} className="relative">
+              {fileList.map((file, index) => (
+                <div key={index} className="relative">
                   <img
-                    src={URL.createObjectURL(file)}
+                    src={
+                      import.meta.env.VITE_MINIO_ENDPOINT + "/images" + file.url
+                    }
                     width={180}
-                    alt={file.name}
+                    alt={file.url}
                     className="rounded-lg"
                   />
                   <button
@@ -68,8 +72,16 @@ const ImageUpload = React.forwardRef<HTMLInputElement, UploadProps>(
               name="image_uploads"
               onChange={(e) => {
                 const files = e?.target?.files;
-                if (files) {
-                  setFileList(() => [...fileList, ...Array.from(files)]);
+                if (files?.length) {
+                  imageupload(files).then((res: ImageProps[]) => {
+                    if (res) {
+                      setFileList(() => [
+                        ...fileList,
+                        ...res.map((f) => ({ id: f.id, url: f.filePath })),
+                      ]);
+                    }
+                  });
+                  //
                 }
               }}
               multiple
