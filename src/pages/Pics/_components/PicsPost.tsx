@@ -26,11 +26,11 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { ImageUpload } from "@/components/cards/ImageUpload";
 
 const formSchema = z.object({
-  file: z.array(z.any()),
-  title: z.string(),
-  theme: z.string(),
-  tags: z.array(z.string()),
-  coser: z.string(),
+  file: z.array(z.any()).min(1, { message: "请选择至少一张图片." }),
+  title: z.string().min(1, { message: "标题需要至少 1 个字符." }),
+  theme: z.string().min(1, { message: "主题需要至少 1 个字符." }),
+  tags: z.string(),
+  coser: z.string(z.any()),
 });
 const PicsPost = () => {
   const form = useForm<z.infer<typeof formSchema>>({
@@ -39,7 +39,7 @@ const PicsPost = () => {
       file: [],
       title: "",
       theme: "",
-      tags: [],
+      tags: "",
       coser: "",
     },
   });
@@ -141,7 +141,10 @@ const PicsPost = () => {
                       <FormItem className="mx-3 mb-2">
                         <FormLabel>仅发送给</FormLabel>
                         <FormControl>
-                          <Input placeholder="选择指定Coser" {...field} />
+                          <Input
+                            placeholder="指定Coser: Coser1,Coser2"
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -149,7 +152,7 @@ const PicsPost = () => {
                   />
                   <ScrollBar orientation="vertical" />
                 </ScrollArea>
-                <div className="flex gap-4">
+                <div className="flex space-x-4">
                   <Button type="submit">完成</Button>
                   <DrawerClose>
                     <Button variant="outline">取消</Button>

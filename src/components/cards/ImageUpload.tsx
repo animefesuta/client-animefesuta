@@ -3,6 +3,7 @@ import { SVGProps, useEffect, useState } from "react";
 import { JSX } from "react/jsx-runtime";
 import * as React from "react";
 import { IoCloseCircle } from "react-icons/io5";
+import clsx from "clsx";
 
 export interface UploadProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -21,7 +22,16 @@ const ImageUpload = React.forwardRef<HTMLInputElement, UploadProps>(
       <Card>
         <CardContent className="flex flex-col items-center justify-center border-2 border-dashed border-zinc-200 dark:border-zinc-800 rounded-lg p-10 space-y-6">
           {(fileList.length && (
-            <div className="grid grid-cols-3 gap-4">
+            <div
+              className={clsx(
+                fileList.length > 2
+                  ? "grid-cols-3"
+                  : fileList.length > 1
+                  ? "grid-cols-2"
+                  : "grid-cols-1",
+                "grid gap-3"
+              )}
+            >
               {fileList.map((file) => (
                 <div key={file.name} className="relative">
                   <img
@@ -34,7 +44,7 @@ const ImageUpload = React.forwardRef<HTMLInputElement, UploadProps>(
                     onClick={() =>
                       setFileList((prev) => prev.filter((f) => f !== file))
                     }
-                    className="flex justify-center items-center absolute top-0 right-0 cursor-pointer"
+                    className="flex justify-center items-center absolute top-[-10px] right-[-10px] cursor-pointer"
                   >
                     <IoCloseCircle size={24} />
                   </button>
