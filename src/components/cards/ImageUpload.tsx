@@ -37,6 +37,7 @@ const ImageUpload = React.forwardRef<HTMLInputElement, UploadProps>(
         .catch((err) => {
           if (err === 401) {
             toast({
+              variant: "destructive",
               description: "登录失效，请重新登录。",
             });
             userLogout();
