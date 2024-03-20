@@ -26,6 +26,8 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { ImageUpload } from "@/components/cards/ImageUpload";
 import { postpic } from "@/api/pic";
 import { PicForm } from "@/api/pic/types";
+import { useToast } from "@/components/ui/use-toast";
+import { useState } from "react";
 
 const formSchema = z.object({
   file: z.array(z.any()).min(1, { message: "请选择至少一张图片." }),
@@ -35,6 +37,9 @@ const formSchema = z.object({
   coser: z.string(z.any()),
 });
 const PicsPost = () => {
+  const { toast } = useToast();
+  const [open, setOpen] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -48,7 +53,13 @@ const PicsPost = () => {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     postpic(values as unknown as PicForm).then((res) => {
-      console.log(res);
+      if (res.code === 200) {
+        toast({
+          description: "收到您的返图~",
+        });
+        setOpen(false);
+        form.reset();
+      }
     });
   }
 
@@ -56,8 +67,8 @@ const PicsPost = () => {
     form.setValue("file", e);
   }
   return (
-    <Drawer>
-      <DrawerTrigger>
+    <Drawer open={open} onOpenChange={setOpen}>
+      <DrawerTrigger asChild>
         <div className="py-2 px-14 text-white rounded-md flex gap-2 items-center text-[24px] justify-center bg-sky-400 hover:bg-sky-300 cursor-pointer transition-all">
           <PencilRuler size={26} />
           <div>我要返图</div>
@@ -158,7 +169,7 @@ const PicsPost = () => {
                 </ScrollArea>
                 <div className="flex space-x-4">
                   <Button type="submit">完成</Button>
-                  <DrawerClose>
+                  <DrawerClose asChild>
                     <Button variant="outline">取消</Button>
                   </DrawerClose>
                 </div>

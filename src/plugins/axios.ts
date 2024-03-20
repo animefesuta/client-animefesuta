@@ -14,4 +14,17 @@ loginRegisterInstance.interceptors.request.use((config) => {
   }`;
   return config;
 });
+
+loginRegisterInstance.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    if (error.response.data.code === 401) {
+      return Promise.reject(401);
+    }
+    return Promise.reject(error);
+  }
+);
+
 export default loginRegisterInstance;

@@ -5,7 +5,9 @@ import * as React from "react";
 import { IoCloseCircle } from "react-icons/io5";
 import clsx from "clsx";
 import { imageupload } from "@/api/pic";
-import { ImageProps } from "./types";
+import { useToast } from "@/components/ui/use-toast";
+import { useUserStore } from "@/store/userStore";
+import { useNavigate } from "react-router-dom";
 
 export interface UploadProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -15,10 +17,33 @@ export interface UploadProps
 const ImageUpload = React.forwardRef<HTMLInputElement, UploadProps>(
   ({ className, type, lookImageChange, ...props }, ref) => {
     const [fileList, setFileList] = useState<{ id: string; url: string }[]>([]);
-
     useEffect(() => {
       lookImageChange(fileList);
     }, [fileList, lookImageChange]);
+
+    const { toast } = useToast();
+    const { userLogout } = useUserStore();
+    const navigate = useNavigate();
+    const getImages = async (e: React.ChangeEvent<HTMLInputElement>) => {
+      const files = e.target.files;
+      if (!files?.length) return;
+      await imageupload(files)
+        .then((data) => {
+          setFileList(() => [
+            ...fileList,
+            ...data.map((f) => ({ id: f.id, url: f.filePath })),
+          ]);
+        })
+        .catch((err) => {
+          if (err === 401) {
+            toast({
+              description: "登录失效，请重新登录。",
+            });
+            userLogout();
+            navigate("/");
+          }
+        });
+    };
 
     return (
       <Card>
@@ -70,20 +95,7 @@ const ImageUpload = React.forwardRef<HTMLInputElement, UploadProps>(
               {...props}
               id="image_uploads"
               name="image_uploads"
-              onChange={(e) => {
-                const files = e?.target?.files;
-                if (files?.length) {
-                  imageupload(files).then((res: ImageProps[]) => {
-                    if (res) {
-                      setFileList(() => [
-                        ...fileList,
-                        ...res.map((f) => ({ id: f.id, url: f.filePath })),
-                      ]);
-                    }
-                  });
-                  //
-                }
-              }}
+              onChange={(e) => getImages(e)}
               multiple
               accept="image/*"
             />

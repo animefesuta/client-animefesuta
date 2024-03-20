@@ -17,6 +17,8 @@ import { Button } from "@/components/ui/button";
 
 import { useUserStore } from "@/store/userStore";
 
+import { useToast } from "@/components/ui/use-toast";
+
 interface LoginInProps {
   openDialog: (open: boolean) => void;
 }
@@ -38,9 +40,14 @@ const LogIn: FC<LoginInProps> = ({ openDialog }) => {
     },
   });
 
+  const { toast } = useToast();
+
   function onSubmit(values: z.infer<typeof formSchema>) {
     userLogin(values).then((res) => {
       if (res === true) {
+        toast({
+          description: "欢迎回来。",
+        });
         openDialog(false);
       }
     });

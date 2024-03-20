@@ -17,6 +17,8 @@ import { Button } from "@/components/ui/button";
 
 import { useUserStore } from "@/store/userStore";
 
+import { useToast } from "@/components/ui/use-toast";
+
 interface SignInProps {
   openDialog: (open: boolean) => void;
   openLogin: () => void;
@@ -50,10 +52,14 @@ const SignIn: FC<SignInProps> = ({ openDialog, openLogin }) => {
   });
   const { userSignin } = useUserStore();
 
+  const { toast } = useToast();
   async function onSubmit(values: z.infer<typeof formSchema>) {
     userSignin(values).then((res) => {
       if (res === true) {
         openDialog(false);
+        toast({
+          description: "注册成功，跳转登录。",
+        });
         openLogin();
       }
     });
