@@ -1,4 +1,5 @@
 import axios from "@/plugins/axios";
+import { UserInfo } from "@/store/types";
 
 type UserForm = {
   username: string;
@@ -31,4 +32,11 @@ const getUserInfo = async (email: string) => {
   return res.data;
 };
 
-export { signin, login, getUserInfo };
+const updateUserAvatar = async (
+  userInfo: Partial<UserInfo>
+): Promise<UserInfo> => {
+  const res = await axios.post("/api/v1/fesuta/user/updateAvatar", userInfo);
+  return res.data.data;
+};
+
+export { signin, login, getUserInfo, updateUserAvatar };

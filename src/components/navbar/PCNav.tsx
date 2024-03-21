@@ -106,7 +106,18 @@ const PCNav: FC<NavProps> = ({ currentRoute, links }) => {
             <div>
               <DropdownMenu>
                 <DropdownMenuTrigger>
-                  <FaUser className="cursor-pointer bg-gray-200 flex justify-center items-center w-10 h-10 p-2 rounded-full" />
+                  {userInfo.avatar ? (
+                    <div
+                      style={{
+                        backgroundImage: `url(${
+                          import.meta.env.VITE_MINIO_ENDPOINT
+                        }/images${userInfo.avatar})`,
+                      }}
+                      className="w-10 h-10 bg-cover bg-center rounded-full cursor-pointer"
+                    ></div>
+                  ) : (
+                    <FaUser className="cursor-pointer bg-gray-200 flex justify-center items-center w-10 h-10 p-2 rounded-full" />
+                  )}
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-48">
                   <DropdownMenuLabel>{userInfo.nickname}</DropdownMenuLabel>

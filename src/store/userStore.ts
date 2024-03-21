@@ -1,31 +1,7 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { getUserInfo, login, signin } from "@/api/user";
-
-type UserForm = {
-  username: string;
-  useremail: string;
-  password: string;
-  repassword?: string;
-};
-
-/* type TokenRES = {
-  expiresIn: string;
-  token: string;
-}; */
-
-type UserInfo = {
-  avatar: string;
-  createTime: string;
-  creator: string;
-  deleted: boolean;
-  email: string;
-  id: string;
-  nickname: string;
-  type: string;
-  updateTime: string;
-  updater: string;
-};
+import { UserForm, UserInfo } from "./types";
 
 interface UserState {
   userloginstate: boolean;
@@ -33,6 +9,7 @@ interface UserState {
   userLogin: (
     data: Pick<UserForm, "useremail" | "password">
   ) => Promise<boolean>;
+  updateUserInfo: (userinfo: UserInfo) => void;
   userLogout: () => void;
   userToken: string;
   userInfo: UserInfo;
@@ -65,6 +42,9 @@ export const useUserStore = create(
         set({ userToken: "" });
         set({ userInfo: {} as UserInfo });
         set({ userloginstate: false });
+      },
+      updateUserInfo: (userinfo: UserInfo) => {
+        set({ userInfo: userinfo });
       },
       userToken: "",
       userInfo: {} as UserInfo,
