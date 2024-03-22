@@ -1,15 +1,61 @@
 import { imageupload } from "@/api/pic";
-import { updateUserAvatar } from "@/api/user";
-import { Input } from "@/components/ui/input";
+import {
+  updateUserAvatar,
+  updateUserInstruction,
+  updateUserNickName,
+} from "@/api/user";
 import { UserInfo } from "@/store/types";
 import { useUserStore } from "@/store/userStore";
 import { useState } from "react";
-import { FaUser } from "react-icons/fa";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { PencilLine } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
 
 const PersonalInfo: React.FC<UserInfo> = ({ ...UserInfo }) => {
-  const [nickname, setNickname] = useState(UserInfo.nickname);
+  const [open, setOpen] = useState(false);
+  const [dialogTitle, setDialogTitle] = useState<string>();
+  const [dialogInputValue, setDialogInputValue] = useState<string>();
+  const [currentDialogTag, setDialogTag] = useState(0);
   const [avatar, setAvatar] = useState(UserInfo.avatar);
   const { updateUserInfo } = useUserStore();
+  const { toast } = useToast();
+
+  const handleUpdate = () => {
+    if (currentDialogTag === 0) {
+      updateUserNickName({
+        nickname: dialogInputValue,
+      }).then((res) => {
+        updateUserInfo(res.data);
+        setOpen(false);
+        toast({
+          description: "昵称更新成功",
+        });
+      });
+    } else if (currentDialogTag === 1) {
+      toast({
+        variant: "destructive",
+        description: "该功能暂未开放",
+      });
+    } else if (currentDialogTag === 2) {
+      updateUserInstruction({
+        instruction: dialogInputValue,
+      }).then((res) => {
+        updateUserInfo(res.data);
+        setOpen(false);
+        toast({
+          description: "签名更新成功",
+        });
+      });
+    }
+  };
 
   const updateAvatar = () => {
     const input = document.createElement("input");
@@ -23,41 +69,108 @@ const PersonalInfo: React.FC<UserInfo> = ({ ...UserInfo }) => {
         }).then((r) => {
           updateUserInfo(r);
           setAvatar(r.avatar);
+          toast({
+            description: "头像更新成功",
+          });
         });
       });
     };
     input.click();
   };
+  const setNickNameOpen = () => {
+    setDialogTitle("修改昵称");
+    setDialogInputValue(UserInfo.nickname);
+    setDialogTag(0);
+    setOpen(true);
+  };
+
+  const setEmailOpen = () => {
+    setDialogTitle("修改邮箱");
+    setDialogInputValue(UserInfo.email);
+    setDialogTag(1);
+    setOpen(true);
+  };
+
+  const setIntructionOpen = () => {
+    setDialogTitle("修改签名");
+    setDialogInputValue(UserInfo.instruction);
+    setDialogTag(2);
+    setOpen(true);
+  };
+
   return (
-    <div>
-      <div>
-        <span className="text-[#666]">头像</span>
-        {(avatar && (
+    <>
+      <div className="flex flex-col gap-6 p-6">
+        <div className="flex items-end gap-3">
+          <div className="text-sm">头像:</div>
           <div
-            onClick={() => updateAvatar()}
-            className="w-24 h-24 cursor-pointer bg-cover bg-center rounded-full"
+            className="border w-[100px] h-[100px] rounded-full bg-cover bg-center overflow-hidden"
             style={{
               backgroundImage: `url(${
                 import.meta.env.VITE_MINIO_ENDPOINT
               }/images${avatar})`,
             }}
           ></div>
-        )) || (
-          <FaUser
-            className="bg-gray-200 cursor-pointer text-black flex justify-center items-center w-24 h-24 p-2 rounded-full"
-            onClick={() => updateAvatar()}
-          />
-        )}
+          <button onClick={updateAvatar}>
+            <PencilLine size={16} className="cursor-pointer" />
+          </button>
+        </div>
+        <div className="flex items-end gap-3">
+          <div className="text-sm">昵称:</div>
+          <div>{UserInfo.nickname}</div>
+          <button onClick={() => setNickNameOpen()}>
+            <PencilLine size={16} className="cursor-pointer" />
+          </button>
+        </div>
+        <div className="flex items-end gap-3">
+          <div className="text-sm">邮箱:</div>
+          <div>{UserInfo.email}</div>
+          <button onClick={() => setEmailOpen()}>
+            <PencilLine size={16} className="cursor-pointer" />
+          </button>
+        </div>
+        <div className="flex items-end gap-3">
+          <div className="text-sm">个性签名:</div>
+          <div>{UserInfo.instruction}</div>
+          <button onClick={() => setIntructionOpen()}>
+            <PencilLine size={16} className="cursor-pointer" />
+          </button>
+        </div>
+        {/* <div className="flex items-end gap-3">
+          <div>性别</div>
+          <div>{userInfo.nickname}</div>
+          <button onClick={() => setNickNameOpen()}>
+            <PencilLine size={16} className="cursor-pointer" />
+          </button>
+        </div>
+        <div className="flex items-end gap-3">
+          <div>出生日期</div>
+          <div>{userInfo.nickname}</div>
+          <button onClick={() => setNickNameOpen()}>
+            <PencilLine size={16} className="cursor-pointer" />
+          </button>
+        </div> */}
       </div>
-      <div>
-        <span className="text-[#666]">昵称</span>
-        <Input
-          className="text-[#333]"
-          value={nickname}
-          onChange={(e) => setNickname(e.target.value)}
-        />
-      </div>
-    </div>
+
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>{dialogTitle}</DialogTitle>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <Input
+              value={dialogInputValue}
+              onChange={(e) => setDialogInputValue(e.target.value)}
+            />
+          </div>
+          <DialogFooter>
+            <Button type="submit" onClick={() => handleUpdate()}>
+              保存
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };
 

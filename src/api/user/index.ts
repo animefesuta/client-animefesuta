@@ -50,4 +50,18 @@ const updateUserInstruction = async (
   return res.data;
 };
 
-export { signin, login, getUserInfo, updateUserAvatar, updateUserInstruction };
+const updateUserNickName = async (
+  userInfo: Partial<UserInfo>
+): Promise<UserResponse> => {
+  const res = await axios.post("/api/v1/fesuta/user/updateNickName", userInfo);
+  return res.data;
+};
+
+export {
+  signin,
+  login,
+  getUserInfo,
+  updateUserAvatar,
+  updateUserInstruction,
+  updateUserNickName,
+};

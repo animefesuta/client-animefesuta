@@ -1,21 +1,7 @@
 import { useUserStore } from "@/store/userStore";
-import { PencilLine } from "lucide-react";
 import { useState } from "react";
 import { FaUser } from "react-icons/fa";
 import { PersonalInfo } from "./_components/PersonalInfo";
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { updateUserInstruction } from "@/api/user";
-import { useToast } from "@/components/ui/use-toast";
-import { UserResponse } from "@/api/user/types";
 
 const profileList = [
   {
@@ -43,35 +29,17 @@ const profileList = [
 export default function User() {
   const userStore = useUserStore();
   const [profileId, setProfileId] = useState(0);
-  const [open, setOpen] = useState(false);
-  const { userInfo, updateUserInfo } = userStore;
-  const [instruction, setInstruction] = useState(userInfo.instruction);
-  const { toast } = useToast();
-
-  const handleInstructionUpdate = (response: UserResponse) => {
-    if (response.code === 200) {
-      updateUserInfo(response.data);
-      setOpen(false);
-      toast({
-        description: "签名更新成功",
-      });
-    } else {
-      toast({
-        variant: "destructive",
-        description: "失败",
-      });
-    }
-  };
+  const { userInfo } = userStore;
 
   return (
     <div className="mx-20 min-h-[300px] flex flex-col h-[calc(100vh-210px)] bg-white mt-16">
-      <div className="bg-sky-500 w-full h-[150px] flex justify-center items-center px-6">
-        <div className="flex mt-[-60px] text-white flex-col gap-1">
+      <div className="bg-violet-400 w-full h-[150px] flex items-center px-6">
+        <div className="flex text-white items-center gap-6">
           <div className="flex items-end justify-center">
             {/* 头像 */}
             {(userInfo.avatar && (
               <div
-                className="w-24 h-24 bg-cover bg-center rounded-full"
+                className="w-24 border h-24 bg-cover bg-center rounded-full"
                 style={{
                   backgroundImage: `url(${
                     import.meta.env.VITE_MINIO_ENDPOINT
@@ -82,53 +50,21 @@ export default function User() {
               <FaUser className="bg-gray-200 text-black flex justify-center items-center w-24 h-24 p-2 rounded-full" />
             )}
           </div>
-          {/* 用户名 */}
-          <div className="text-xl text-center">{userInfo.nickname}</div>
-          <div className="flex text-[12px] justify-center items-center gap-3">
-            {/* 个性签名 */}
-            <span>{userInfo.instruction}</span>
-            <Dialog open={open} onOpenChange={setOpen}>
-              <DialogTrigger asChild>
-                <PencilLine size={16} className="cursor-pointer" />
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                  <DialogTitle>个性签名</DialogTitle>
-                  {/* <DialogDescription>
-                    Make changes to your profile here. Click save when you're
-                    done.
-                  </DialogDescription> */}
-                </DialogHeader>
-                <div className="grid gap-4 py-4">
-                  <Input
-                    value={instruction}
-                    onChange={(e) => setInstruction(e.target.value)}
-                  />
-                </div>
-                <DialogFooter>
-                  <Button
-                    type="submit"
-                    onClick={() =>
-                      updateUserInstruction({ instruction: instruction }).then(
-                        (res) => {
-                          handleInstructionUpdate(res);
-                        }
-                      )
-                    }
-                  >
-                    保存
-                  </Button>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
-          </div>
-          <div className="flex justify-around">
-            <button className="text-[12px] bg-sky-600 hover:bg-sky-700 transition-all text-white px-3 py-1 rounded">
-              创作中心
-            </button>
-            <button className="text-[12px] bg-sky-600 hover:bg-sky-700 transition-all text-white px-3 py-1 rounded">
-              更换背景
-            </button>
+          <div className="flex flex-col gap-2">
+            {/* 用户名 */}
+            <div className="text-xl">{userInfo.nickname}</div>
+            <div className="flex text-[12px] justify-center items-center gap-3">
+              {/* 个性签名 */}
+              {userInfo.instruction}
+            </div>
+            <div className="flex gap-3">
+              <button className="text-[12px] bg-violet-500 hover:bg-violet-700 transition-all text-white px-3 py-1 rounded">
+                创作中心
+              </button>
+              <button className="text-[12px] bg-violet-500 hover:bg-violet-700 transition-all text-white px-3 py-1 rounded">
+                更换背景
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -138,7 +74,7 @@ export default function User() {
             <div
               className={
                 profileId === item.id
-                  ? "w-full py-2 bg-blue-400 text-white transition-all"
+                  ? "w-full py-2 bg-black text-white transition-all"
                   : "w-full py-2 bg-white"
               }
               key={item.id}
@@ -149,7 +85,7 @@ export default function User() {
           ))}
           <div className="text-center my-2"></div>
         </div>
-        <div>
+        <div className="flex-1">
           {profileId === 0 && <PersonalInfo {...userInfo} />}
           {profileId === 1 && <div>直播设置</div>}
           {profileId === 2 && <div>返图管理</div>}
