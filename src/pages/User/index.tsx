@@ -2,6 +2,7 @@ import { useUserStore } from "@/store/userStore";
 import { useState } from "react";
 import { FaUser } from "react-icons/fa";
 import { PersonalInfo } from "./_components/PersonalInfo";
+import { LiveSettings } from "./_components/LiveSettings";
 
 const profileList = [
   {
@@ -87,7 +88,7 @@ export default function User() {
         </div>
         <div className="flex-1">
           {profileId === 0 && <PersonalInfo {...userInfo} />}
-          {profileId === 1 && <div>直播设置</div>}
+          {profileId === 1 && <LiveSettings {...userInfo} />}
           {profileId === 2 && <div>返图管理</div>}
           {profileId === 3 && <div>我的贴子</div>}
           {profileId === 4 && <div>活动详情</div>}
