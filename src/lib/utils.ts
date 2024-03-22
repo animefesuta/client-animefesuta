@@ -20,3 +20,11 @@ export function getPageError(error: unknown): string {
 
   return "Unknown error";
 }
+
+export function dateFormatted(date: string) {
+  const originalDate = new Date(date);
+  const year = originalDate.getFullYear();
+  const month = originalDate.getMonth() + 1;
+  const day = originalDate.getDate();
+  return `${year}年${month}月${day}日`;
+}
