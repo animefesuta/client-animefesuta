@@ -98,9 +98,9 @@ export default function User() {
           <div className="flex flex-col gap-2">
             {/* 用户名 */}
             <div className="text-xl">{userInfo.nickname}</div>
-            <div className="flex text-[12px] justify-center items-center gap-3">
-              {/* 个性签名 */}
-              {userInfo.instruction}
+            <div className="flex text-[12px] items-center gap-3">
+              {/* UID */}
+              UID: {userInfo.uid}
             </div>
             <div className="flex gap-3">
               <button className="text-[12px] bg-violet-500 hover:bg-violet-700 transition-all text-white px-3 py-1 rounded">

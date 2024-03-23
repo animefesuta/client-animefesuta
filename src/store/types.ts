@@ -17,6 +17,7 @@ type UserInfo = {
   deleted: boolean;
   email: string;
   id: string;
+  uid: string;
   nickname: string;
   instruction: string;
   type: string;
