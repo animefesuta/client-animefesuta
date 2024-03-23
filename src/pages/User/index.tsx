@@ -33,8 +33,8 @@ export default function User() {
   const { userInfo } = userStore;
 
   return (
-    <div className="mx-20 min-h-[300px] flex flex-col h-[calc(100vh-210px)] bg-white mt-16">
-      <div className="bg-violet-400 w-full h-[150px] flex items-center px-6">
+    <div className="min-h-[300px] flex flex-col h-screen bg-white">
+      <div className="bg-violet-400 w-full h-[200px] flex items-center px-6">
         <div className="flex text-white items-center gap-6">
           <div className="flex items-end justify-center">
             {/* 头像 */}

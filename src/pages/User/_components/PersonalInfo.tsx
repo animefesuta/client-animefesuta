@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -23,6 +24,7 @@ const PersonalInfo: React.FC<UserInfo> = ({ ...UserInfo }) => {
   const [open, setOpen] = useState(false);
   const [dialogTitle, setDialogTitle] = useState<string>();
   const [dialogInputValue, setDialogInputValue] = useState<string>();
+  const [dialogDescription, setDialogDescription] = useState<string>();
   const [currentDialogTag, setDialogTag] = useState(0);
   const [avatar, setAvatar] = useState(UserInfo.avatar);
   const { updateUserInfo } = useUserStore();
@@ -78,6 +80,7 @@ const PersonalInfo: React.FC<UserInfo> = ({ ...UserInfo }) => {
     input.click();
   };
   const setNickNameOpen = () => {
+    setDialogDescription("");
     setDialogTitle("修改昵称");
     setDialogInputValue(UserInfo.nickname);
     setDialogTag(0);
@@ -86,12 +89,14 @@ const PersonalInfo: React.FC<UserInfo> = ({ ...UserInfo }) => {
 
   const setEmailOpen = () => {
     setDialogTitle("修改邮箱");
+    setDialogDescription("修改邮箱后需要重新登录");
     setDialogInputValue(UserInfo.email);
     setDialogTag(1);
     setOpen(true);
   };
 
   const setIntructionOpen = () => {
+    setDialogDescription("");
     setDialogTitle("修改签名");
     setDialogInputValue(UserInfo.instruction);
     setDialogTag(2);
@@ -157,6 +162,9 @@ const PersonalInfo: React.FC<UserInfo> = ({ ...UserInfo }) => {
           <DialogHeader>
             <DialogTitle>{dialogTitle}</DialogTitle>
           </DialogHeader>
+          <DialogDescription>
+            <div className="text-gray-500">{dialogDescription}</div>
+          </DialogDescription>
           <div className="grid gap-4 py-4">
             <Input
               value={dialogInputValue}
