@@ -6,4 +6,26 @@ type PicForm = {
   coser?: string;
 };
 
-export type { PicForm };
+type Authors = {
+  avatar: string;
+  uid: string;
+  username: string;
+};
+
+type PostPics = {
+  coser: string[];
+  createTime: string;
+  creator: string;
+  deleted: boolean;
+  id: string;
+  image: string[];
+  status: boolean;
+  status_desc: string;
+  tags: string[];
+  theme: string;
+  title: string;
+  updateTime: string;
+  updater: string;
+};
+
+export type { PicForm, Authors, PostPics };

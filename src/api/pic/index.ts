@@ -1,5 +1,5 @@
 import axios from "@/plugins/axios";
-import { PicForm } from "./types";
+import { Authors, PicForm, PostPics } from "./types";
 import { ImageProps } from "@/components/cards/types";
 
 const imageupload = async (data: FileList): Promise<ImageProps[]> => {
@@ -38,15 +38,24 @@ const postpic = async (data: PicForm) => {
   }
 };
 
-const getPicsByAuthorUID = async (uid: string) => {
+const getAllAuthors = async (): Promise<Authors[]> => {
+  const res = await axios.get("/api/v1/fesuta/cos/getAllAuthors");
+  if (res.data) {
+    return res.data.data;
+  }
+  return [];
+};
+
+const getPicsByAuthorUID = async (uid: string): Promise<PostPics[]> => {
   const res = await axios.get("/api/v1/fesuta/cos/getPostByUID", {
     params: {
       UID: uid,
     },
   });
   if (res.data) {
-    return res.data;
+    return res.data.data;
   }
+  return [];
 };
 
-export { imageupload, postpic, getPicsByAuthorUID };
+export { imageupload, postpic, getPicsByAuthorUID, getAllAuthors };

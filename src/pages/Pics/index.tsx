@@ -14,16 +14,14 @@ import { BlankCard } from "./_components/BlankCard";
 import { IoRefresh } from "react-icons/io5";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import PicsPost from "./_components/PicsPost";
+import { getAllAuthors, getPicsByAuthorUID } from "@/api/pic";
+import { Authors, PostPics } from "@/api/pic/types";
+import { FaUser } from "react-icons/fa";
 interface CardProps {
   cardTitle: string;
   cardId: string;
   cardType: string;
   cardUrl: string;
-}
-interface Author {
-  authorname: string;
-  authorid: string;
-  authorimage: string;
 }
 export default function Pics() {
   const [carouselItem, setCarouselItem] = useState<
@@ -32,21 +30,21 @@ export default function Pics() {
 
   const [blankItem, setBlankItem] = useState<CardProps[]>([]);
 
-  const [authors, setAuthors] = useState<Author[]>([]);
+  const [authorPosts, setAuthorPosts] = useState<PostPics[]>([]);
+
+  const [authors, setAuthors] = useState<Authors[]>([]);
+
+  const getPicsByAuthor = (uid: string) => {
+    getPicsByAuthorUID(uid).then((res) => {
+      setAuthorPosts(res);
+    });
+  };
 
   useEffect(() => {
     setCarouselItem(() =>
       Array.from({ length: 3 }, (_, i) => ({
         name: `elysia${i}`,
         url: "/elysia_1.jpg",
-      }))
-    );
-
-    setAuthors(() =>
-      Array.from({ length: 3 }, (_, i) => ({
-        authorname: `elysia${i}`,
-        authorid: `elysia${i}`,
-        authorimage: "/txmascot.png",
       }))
     );
 
@@ -58,6 +56,10 @@ export default function Pics() {
         cardUrl: "/elysia_1.jpg",
       }))
     );
+
+    getAllAuthors().then((res) => {
+      setAuthors(res);
+    });
   }, []);
 
   return (
@@ -124,16 +126,24 @@ export default function Pics() {
           <ScrollArea className="h-[332px] w-48">
             <div className="grid grid-cols-2 gap-3 p-2">
               {authors.map((item) => (
-                <div
-                  key={item.authorid}
-                  className="flex hover:bg-sky-100 p-2 flex-col items-center justify-center"
+                <button
+                  key={item.uid}
+                  className="flex cursor-pointer hover:bg-sky-100 p-2 flex-col items-center justify-center w-full"
+                  onClick={() => getPicsByAuthor(item.uid)}
                 >
                   <Avatar>
-                    <AvatarImage src={item.authorimage} alt={item.authorname} />
-                    <AvatarFallback>{item.authorname}</AvatarFallback>
+                    <AvatarImage
+                      src={`${import.meta.env.VITE_MINIO_ENDPOINT}/images${
+                        item.avatar
+                      }`}
+                      alt={item.uid}
+                    />
+                    <AvatarFallback>
+                      <FaUser className="bg-gray-200 text-black border flex justify-center items-center w-24 h-24 p-2 rounded-full" />
+                    </AvatarFallback>
                   </Avatar>
-                  <div>{item.authorname}</div>
-                </div>
+                  <div className=" w-full truncate">{item.username}</div>
+                </button>
               ))}
             </div>
           </ScrollArea>
@@ -148,9 +158,21 @@ export default function Pics() {
           </h1>
           <ScrollArea className="w-full whitespace-nowrap">
             <div className="flex w-max space-x-4 p-4">
-              {blankItem.map((item) => {
-                return <BlankCard key={item.cardId} {...item} />;
-              })}
+              {authorPosts
+                .filter((item) => item.image)
+                .map((item) => {
+                  return (
+                    <BlankCard
+                      key={item.id}
+                      cardTitle={item.title}
+                      cardId={item.id}
+                      cardType={item.theme}
+                      cardUrl={`${import.meta.env.VITE_MINIO_ENDPOINT}/images${
+                        item.image[0]
+                      }`}
+                    />
+                  );
+                })}
             </div>
             <ScrollBar orientation="horizontal" />
           </ScrollArea>
