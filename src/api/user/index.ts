@@ -67,6 +67,10 @@ const updateUserBackground = async (
   return res.data;
 };
 
+const updateUserEmail = async (userInfo: Partial<UserInfo>): Promise<void> => {
+  return await axios.post("/api/v1/fesuta/user/updateEmail", userInfo);
+};
+
 export {
   signin,
   login,
@@ -75,4 +79,5 @@ export {
   updateUserInstruction,
   updateUserNickName,
   updateUserBackground,
+  updateUserEmail,
 };

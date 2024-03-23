@@ -1,6 +1,7 @@
 import { imageupload } from "@/api/pic";
 import {
   updateUserAvatar,
+  updateUserEmail,
   updateUserInstruction,
   updateUserNickName,
 } from "@/api/user";
@@ -20,6 +21,7 @@ import { Input } from "@/components/ui/input";
 import { PencilLine } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { FaUser } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const PersonalInfo: React.FC<UserInfo> = ({ ...UserInfo }) => {
   const [open, setOpen] = useState(false);
@@ -28,7 +30,8 @@ const PersonalInfo: React.FC<UserInfo> = ({ ...UserInfo }) => {
   const [dialogDescription, setDialogDescription] = useState<string>();
   const [currentDialogTag, setDialogTag] = useState(0);
   const [avatar, setAvatar] = useState(UserInfo.avatar);
-  const { updateUserInfo } = useUserStore();
+  const { updateUserInfo, userLogout } = useUserStore();
+  const navigate = useNavigate();
   const { toast } = useToast();
 
   const handleUpdate = () => {
@@ -43,9 +46,15 @@ const PersonalInfo: React.FC<UserInfo> = ({ ...UserInfo }) => {
         });
       });
     } else if (currentDialogTag === 1) {
-      toast({
-        variant: "destructive",
-        description: "该功能暂未开放",
+      updateUserEmail({
+        email: dialogInputValue,
+      }).then(() => {
+        setOpen(false);
+        userLogout();
+        navigate("/");
+        toast({
+          description: "邮箱已更新，请重新登录",
+        });
       });
     } else if (currentDialogTag === 2) {
       updateUserInstruction({
@@ -168,7 +177,7 @@ const PersonalInfo: React.FC<UserInfo> = ({ ...UserInfo }) => {
             <DialogTitle>{dialogTitle}</DialogTitle>
           </DialogHeader>
           <DialogDescription>
-            <div className="text-gray-500">{dialogDescription}</div>
+            <div className="text-red-500">{dialogDescription}</div>
           </DialogDescription>
           <div className="grid gap-4 py-4">
             <Input
