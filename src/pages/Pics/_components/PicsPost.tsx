@@ -87,14 +87,13 @@ const PicsPost = () => {
                   <FormField
                     control={form.control}
                     name="file"
-                    render={(field) => (
+                    render={() => (
                       <FormItem className="mx-3 mb-2">
                         <FormControl>
                           <ImageUpload
                             className="hidden"
                             type="file"
                             lookImageChange={lookImageChange}
-                            {...field}
                           />
                         </FormControl>
                         <FormMessage />
