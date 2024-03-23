@@ -27,7 +27,7 @@ const imageupload = async (data: FileList): Promise<ImageProps[]> => {
 
 const postpic = async (data: PicForm) => {
   const res = await axios.post("/api/v1/fesuta/cos/postpic", {
-    image: data.files,
+    image: data.files.map((f) => f.url),
     title: data.title,
     theme: data.theme,
     tags: Array.from(data.tags?.split("#") ?? []),
@@ -38,4 +38,15 @@ const postpic = async (data: PicForm) => {
   }
 };
 
-export { imageupload, postpic };
+const getPicsByAuthorUID = async (uid: string) => {
+  const res = await axios.get("/api/v1/fesuta/cos/getPostByUID", {
+    params: {
+      UID: uid,
+    },
+  });
+  if (res.data) {
+    return res.data;
+  }
+};
+
+export { imageupload, postpic, getPicsByAuthorUID };

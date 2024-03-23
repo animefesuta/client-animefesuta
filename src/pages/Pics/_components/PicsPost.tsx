@@ -30,7 +30,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useState } from "react";
 
 const formSchema = z.object({
-  file: z.array(z.any()).min(1, { message: "请选择至少一张图片." }),
+  files: z.array(z.any()).min(1, { message: "请选择至少一张图片." }),
   title: z.string().min(1, { message: "标题需要至少 1 个字符." }),
   theme: z.string().min(1, { message: "主题需要至少 1 个字符." }),
   tags: z.string(),
@@ -43,7 +43,7 @@ const PicsPost = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      file: [],
+      files: [],
       title: "",
       theme: "",
       tags: "",
@@ -64,7 +64,7 @@ const PicsPost = () => {
   }
 
   function lookImageChange(e: { id: string; url: string }[]) {
-    form.setValue("file", e);
+    form.setValue("files", e);
   }
   return (
     <Drawer open={open} onOpenChange={setOpen}>
@@ -86,7 +86,7 @@ const PicsPost = () => {
                 <ScrollArea className="h-[60vh]">
                   <FormField
                     control={form.control}
-                    name="file"
+                    name="files"
                     render={() => (
                       <FormItem className="mx-3 mb-2">
                         <FormControl>

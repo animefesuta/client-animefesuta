@@ -1,5 +1,5 @@
 type PicForm = {
-  files: string[];
+  files: { id: string; url: string }[];
   title: string;
   theme: string;
   tags?: string;
