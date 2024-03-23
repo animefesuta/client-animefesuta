@@ -57,6 +57,16 @@ const updateUserNickName = async (
   return res.data;
 };
 
+const updateUserBackground = async (
+  userInfo: Partial<UserInfo>
+): Promise<UserResponse> => {
+  const res = await axios.post(
+    "/api/v1/fesuta/user/updateBackground",
+    userInfo
+  );
+  return res.data;
+};
+
 export {
   signin,
   login,
@@ -64,4 +74,5 @@ export {
   updateUserAvatar,
   updateUserInstruction,
   updateUserNickName,
+  updateUserBackground,
 };

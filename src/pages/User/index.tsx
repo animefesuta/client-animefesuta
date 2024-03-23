@@ -1,8 +1,11 @@
 import { useUserStore } from "@/store/userStore";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaUser } from "react-icons/fa";
 import { PersonalInfo } from "./_components/PersonalInfo";
 import { LiveSettings } from "./_components/LiveSettings";
+import { imageupload } from "@/api/pic";
+import { updateUserBackground } from "@/api/user";
+import { useToast } from "@/components/ui/use-toast";
 
 const profileList = [
   {
@@ -28,13 +31,54 @@ const profileList = [
 ];
 
 export default function User() {
-  const userStore = useUserStore();
+  const { userInfo, updateUserInfo } = useUserStore();
   const [profileId, setProfileId] = useState(0);
-  const { userInfo } = userStore;
+  const [backgroundImage, setBackground] = useState(userInfo.backgroundImage);
+
+  const { toast } = useToast();
+
+  useEffect(() => {
+    if (userInfo.backgroundImage) {
+      setBackground(
+        `url(${import.meta.env.VITE_MINIO_ENDPOINT}/images${
+          userInfo.backgroundImage
+        })`
+      );
+    } else {
+      setBackground("");
+    }
+  }, [userInfo.backgroundImage]);
+
+  const updateBackground = () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.onchange = (e) => {
+      const file = (e.target as HTMLInputElement).files!;
+      imageupload(file).then((res) => {
+        updateUserBackground({
+          backgroundImage: res[0].filePath,
+        }).then((r) => {
+          updateUserInfo(r.data);
+          setBackground(r.data.avatar);
+          toast({
+            description: "背景更新成功",
+          });
+        });
+      });
+    };
+    input.click();
+  };
 
   return (
     <div className="min-h-[300px] flex flex-col h-screen bg-white">
-      <div className="bg-violet-400 w-full h-[200px] flex items-center px-6">
+      <div
+        style={{
+          backgroundImage: backgroundImage,
+          backgroundSize: "cover",
+        }}
+        className="bg-violet-400 w-full h-[200px] flex items-center px-6"
+      >
         <div className="flex text-white items-center gap-6">
           <div className="flex items-end justify-center">
             {/* 头像 */}
@@ -62,7 +106,10 @@ export default function User() {
               <button className="text-[12px] bg-violet-500 hover:bg-violet-700 transition-all text-white px-3 py-1 rounded">
                 创作中心
               </button>
-              <button className="text-[12px] bg-violet-500 hover:bg-violet-700 transition-all text-white px-3 py-1 rounded">
+              <button
+                className="text-[12px] bg-violet-500 hover:bg-violet-700 transition-all text-white px-3 py-1 rounded"
+                onClick={() => updateBackground()}
+              >
                 更换背景
               </button>
             </div>

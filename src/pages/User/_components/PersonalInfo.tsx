@@ -19,6 +19,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { PencilLine } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+import { FaUser } from "react-icons/fa";
 
 const PersonalInfo: React.FC<UserInfo> = ({ ...UserInfo }) => {
   const [open, setOpen] = useState(false);
@@ -108,14 +109,18 @@ const PersonalInfo: React.FC<UserInfo> = ({ ...UserInfo }) => {
       <div className="flex flex-col gap-6 p-6">
         <div className="flex items-end gap-3">
           <div className="text-sm">头像:</div>
-          <div
-            className="border w-[100px] h-[100px] rounded-full bg-cover bg-center overflow-hidden"
-            style={{
-              backgroundImage: `url(${
-                import.meta.env.VITE_MINIO_ENDPOINT
-              }/images${avatar})`,
-            }}
-          ></div>
+          {(avatar && (
+            <div
+              className="border w-[100px] h-[100px] rounded-full bg-cover bg-center overflow-hidden"
+              style={{
+                backgroundImage: `url(${
+                  import.meta.env.VITE_MINIO_ENDPOINT
+                }/images${avatar})`,
+              }}
+            ></div>
+          )) || (
+            <FaUser className="bg-gray-200 text-black border flex justify-center items-center w-24 h-24 p-2 rounded-full" />
+          )}
           <button onClick={updateAvatar}>
             <PencilLine size={16} className="cursor-pointer" />
           </button>

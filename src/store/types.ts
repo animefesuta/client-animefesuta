@@ -22,6 +22,7 @@ type UserInfo = {
   type: string;
   updateTime: string;
   updater: string;
+  backgroundImage: string;
 };
 
 export type { UserForm, UserInfo };
