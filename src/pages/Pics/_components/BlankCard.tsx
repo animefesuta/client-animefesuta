@@ -15,7 +15,7 @@ interface CardProps {
 
 const BlankCard: React.FC<CardProps> = ({ ...CardProps }) => {
   return (
-    <div className="w-[180px] h-[300px] cursor-pointer">
+    <div className="w-[180px] transition-all hover:w-[420px] h-[300px] cursor-pointer">
       <div
         style={{ backgroundImage: `url(${CardProps.cardUrl})` }}
         className={clsx("rounded-lg w-full h-[239px] bg-cover bg-center")}
