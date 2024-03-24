@@ -116,6 +116,7 @@ export default function Posts() {
       setDrawerOpen(false);
       setTitle("");
       setTheme("");
+      setImage("");
       editorRef.current?.getInstance().setMarkdown("");
       toast({
         description: "帖子发送成功，进入审核阶段~",
@@ -182,7 +183,7 @@ export default function Posts() {
           {sub.map((item) => (
             <div key={item.id} className="flex gap-2 my-2 cursor-pointer">
               <div className="flex w-full gap-2">
-                <div className="h-[125px] w-[250px] rounded-xl border overflow-hidden">
+                <div className="h-[125px] min-w-[250px] rounded-xl border overflow-hidden">
                   <div
                     className="h-[125px] w-[250px] transition-all hover:scale-110 bg-center bg-cover"
                     style={{
@@ -192,12 +193,16 @@ export default function Posts() {
                     }}
                   ></div>
                 </div>
-                <div className="flex flex-col truncate">
+                <div className="flex flex-col truncate justify-between py-2 w-full">
                   <div className="text-lg font-bold mb-5">{item.title}</div>
-                  <div className="text-sm text-gray-400">{item.author}</div>
-                  <div className="text-sm text-gray-400">{item.date}</div>
                   <div className="text-sm text-gray-400 truncate">
                     {item.content}
+                  </div>
+                  <div className="flex justify-between pr-3">
+                    <div className="text-sm text-gray-400">{item.author}</div>
+                    <div className="text-sm text-gray-400 text-[10px]">
+                      {item.date}
+                    </div>
                   </div>
                 </div>
               </div>
