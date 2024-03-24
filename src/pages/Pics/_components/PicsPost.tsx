@@ -28,6 +28,8 @@ import { postpic } from "@/api/pic";
 import { PicForm } from "@/api/pic/types";
 import { useToast } from "@/components/ui/use-toast";
 import { useState } from "react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { postAiPic } from "@/api/ai";
 
 const formSchema = z.object({
   files: z.array(z.any()).min(1, { message: "请选择至少一张图片." }),
@@ -35,6 +37,7 @@ const formSchema = z.object({
   theme: z.string().min(1, { message: "主题需要至少 1 个字符." }),
   tags: z.string(),
   coser: z.string(z.any()),
+  ai: z.boolean().default(false).optional(),
 });
 const PicsPost = () => {
   const { toast } = useToast();
@@ -48,10 +51,25 @@ const PicsPost = () => {
       theme: "",
       tags: "",
       coser: "",
+      ai: false,
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values.ai);
+
+    if (values.ai === true) {
+      postAiPic(values as unknown as PicForm).then((res) => {
+        if (res.code === 200) {
+          toast({
+            description: "收到您的返图~",
+          });
+          setOpen(false);
+          form.reset();
+        }
+      });
+      return;
+    }
     postpic(values as unknown as PicForm).then((res) => {
       if (res.code === 200) {
         toast({
@@ -161,6 +179,25 @@ const PicsPost = () => {
                           />
                         </FormControl>
                         <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="ai"
+                    render={({ field }) => (
+                      <FormItem className="mx-3 mb-2">
+                        <FormLabel>AI</FormLabel>
+                        <FormControl>
+                          <div className="flex items-center gap-3">
+                            <Checkbox
+                              id="ai"
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                            <label htmlFor="ai">使用AI生成</label>
+                          </div>
+                        </FormControl>
                       </FormItem>
                     )}
                   />

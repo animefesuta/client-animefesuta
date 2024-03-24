@@ -27,16 +27,11 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-interface CardProps {
-  cardTitle: string;
-  cardId: string;
-  cardType: string;
-  cardUrl: string;
-}
+import { getAiPosts } from "@/api/ai";
 export default function Pics() {
   const [carouselItem, setCarouselItem] = useState<BannerPics[]>([]);
 
-  const [blankItem, setBlankItem] = useState<CardProps[]>([]);
+  const [aiPosts, setAiPosts] = useState<PostPics[]>([]);
 
   const [recommendPosts, setRecommendPosts] = useState<PostPics[]>([]);
 
@@ -51,15 +46,6 @@ export default function Pics() {
   };
 
   useEffect(() => {
-    setBlankItem(() =>
-      Array.from({ length: 10 }, (_, i) => ({
-        cardTitle: "返图",
-        cardId: `${i}`,
-        cardType: "返图",
-        cardUrl: "/elysia_1.jpg",
-      }))
-    );
-
     getBanner().then((res) => {
       setCarouselItem(res);
     });
@@ -73,6 +59,10 @@ export default function Pics() {
       if (res.length > 0) {
         getPicsByAuthor(res[0].uid);
       }
+    });
+
+    getAiPosts().then((res) => {
+      setAiPosts(res);
     });
   }, []);
 
@@ -228,23 +218,35 @@ export default function Pics() {
       )}
 
       {/* AI绘图 */}
-      <div className="flex flex-col px-24 my-6">
-        <h1 className="text-2xl flex gap-2 items-center m-3">
-          <span className="text-[32px]">AI绘图</span>
-          <div className="text-[16px] bg-white text-[rgba(0,20,39,.5)] hover:text-white flex justify-center items-center transform duration-150 hover:bg-[#53b2f4] cursor-pointer rounded-full px-4 py-1">
-            <IoRefresh />
-            <span>换一换</span>
-          </div>
-        </h1>
-        <ScrollArea className="whitespace-nowrap">
-          <div className="flex w-max space-x-4 p-4">
-            {blankItem.map((item) => {
-              return <BlankCard key={item.cardId} {...item} />;
-            })}
-          </div>
-          <ScrollBar orientation="horizontal" />
-        </ScrollArea>
-      </div>
+      {aiPosts.length > 0 && (
+        <div className="flex flex-col px-24 my-6">
+          <h1 className="text-2xl flex gap-2 items-center m-3">
+            <span className="text-[32px]">AI绘图</span>
+            <div className="text-[16px] bg-white text-[rgba(0,20,39,.5)] hover:text-white flex justify-center items-center transform duration-150 hover:bg-[#53b2f4] cursor-pointer rounded-full px-4 py-1">
+              <IoRefresh />
+              <span>换一换</span>
+            </div>
+          </h1>
+          <ScrollArea className="whitespace-nowrap">
+            <div className="flex w-max space-x-4 p-4">
+              {aiPosts.map((item) => {
+                return (
+                  <BlankCard
+                    key={item.id}
+                    cardTitle={item.title}
+                    cardId={item.id}
+                    cardType={item.theme}
+                    cardUrl={`${import.meta.env.VITE_MINIO_ENDPOINT}/images${
+                      item.image[0]
+                    }`}
+                  />
+                );
+              })}
+            </div>
+            <ScrollBar orientation="horizontal" />
+          </ScrollArea>
+        </div>
+      )}
     </div>
   );
 }
