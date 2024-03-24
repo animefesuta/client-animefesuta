@@ -222,29 +222,33 @@ export default function Pics() {
         <div className="flex flex-col px-24 my-6">
           <h1 className="text-2xl flex gap-2 items-center m-3">
             <span className="text-[32px]">AI绘图</span>
-            <div className="text-[16px] bg-white text-[rgba(0,20,39,.5)] hover:text-white flex justify-center items-center transform duration-150 hover:bg-[#53b2f4] cursor-pointer rounded-full px-4 py-1">
+            <button
+              className="text-[16px] bg-white text-[rgba(0,20,39,.5)] hover:text-white flex justify-center items-center transform duration-150 hover:bg-[#53b2f4] cursor-pointer rounded-full px-4 py-1"
+              onClick={() => {
+                getAiPosts().then((res) => {
+                  setAiPosts(res);
+                });
+              }}
+            >
               <IoRefresh />
               <span>换一换</span>
-            </div>
+            </button>
           </h1>
-          <ScrollArea className="whitespace-nowrap">
-            <div className="flex w-max space-x-4 p-4">
-              {aiPosts.map((item) => {
-                return (
-                  <BlankCard
-                    key={item.id}
-                    cardTitle={item.title}
-                    cardId={item.id}
-                    cardType={item.theme}
-                    cardUrl={`${import.meta.env.VITE_MINIO_ENDPOINT}/images${
-                      item.image[0]
-                    }`}
-                  />
-                );
-              })}
-            </div>
-            <ScrollBar orientation="horizontal" />
-          </ScrollArea>
+          <div className="flex w-max space-x-4 p-4 mx-auto">
+            {aiPosts.map((item) => {
+              return (
+                <BlankCard
+                  key={item.id}
+                  cardTitle={item.title}
+                  cardId={item.id}
+                  cardType={item.theme}
+                  cardUrl={`${import.meta.env.VITE_MINIO_ENDPOINT}/images${
+                    item.image[0]
+                  }`}
+                />
+              );
+            })}
+          </div>
         </div>
       )}
     </div>
