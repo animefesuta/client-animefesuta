@@ -11,7 +11,7 @@ const LiveSettings: React.FC<UserInfo> = ({ ...UserInfo }) => {
     setStreamKey(key);
   };
   return (
-    <div className="flex gap-6 p-6">
+    <div className="flex flex-col md:flex-row gap-6 p-6">
       <div className="flex flex-col gap-6">
         <div>
           <div>直播分类：</div>

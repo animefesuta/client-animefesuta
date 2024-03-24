@@ -28,4 +28,6 @@ type PostPics = {
   updater: string;
 };
 
-export type { PicForm, Authors, PostPics };
+type BannerPics = Pick<PostPics, "id" | "image">;
+
+export type { PicForm, Authors, PostPics, BannerPics };

@@ -58,4 +58,27 @@ const getPicsByAuthorUID = async (uid: string): Promise<PostPics[]> => {
   return [];
 };
 
-export { imageupload, postpic, getPicsByAuthorUID, getAllAuthors };
+const getRecommendPosts = async (): Promise<PostPics[]> => {
+  const res = await axios.get("/api/v1/fesuta/cos/getRecommendPosts");
+  if (res.data.code === 200) {
+    return res.data.data;
+  }
+  return [];
+};
+
+const getBanner = async (): Promise<PostPics[]> => {
+  const res = await axios.get("/api/v1/fesuta/cos/getBanner");
+  if (res.data.code === 200) {
+    return res.data.data;
+  }
+  return [];
+};
+
+export {
+  imageupload,
+  postpic,
+  getPicsByAuthorUID,
+  getAllAuthors,
+  getRecommendPosts,
+  getBanner,
+};

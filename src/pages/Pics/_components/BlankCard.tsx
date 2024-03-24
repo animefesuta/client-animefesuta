@@ -12,7 +12,7 @@ const BlankCard: React.FC<CardProps> = ({ ...CardProps }) => {
     <div className="w-[180px] h-[300px] cursor-pointer">
       <div
         style={{ backgroundImage: `url(${CardProps.cardUrl})` }}
-        className={clsx("w-full h-[239px] bg-cover bg-center")}
+        className={clsx("rounded-lg w-full h-[239px] bg-cover bg-center")}
       ></div>
       <div>
         <div className="text-[18px]">{CardProps.cardTitle}</div>
