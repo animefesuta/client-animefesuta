@@ -103,11 +103,11 @@ export default function User() {
               UID: {userInfo.uid}
             </div>
             <div className="flex gap-3">
-              <button className="text-[12px] bg-violet-500 hover:bg-violet-700 transition-all text-white px-3 py-1 rounded">
-                创作中心
+              <button className="text-[12px] text-black bg-white hover:bg-gray-200 transition-all px-3 py-1 rounded">
+                AI创作中心
               </button>
               <button
-                className="text-[12px] bg-violet-500 hover:bg-violet-700 transition-all text-white px-3 py-1 rounded"
+                className="text-[12px] text-black bg-white hover:bg-gray-200 transition-all px-3 py-1 rounded"
                 onClick={() => updateBackground()}
               >
                 更换背景
