@@ -1,4 +1,4 @@
-import { GoThumbsup } from "react-icons/go";
+import { GoPlus, GoThumbsup } from "react-icons/go";
 import { AiOutlineNumber } from "react-icons/ai";
 import { IoCameraOutline } from "react-icons/io5";
 import { GiSesame } from "react-icons/gi";
@@ -33,6 +33,7 @@ import { Input } from "@/components/ui/input";
 import { createPost, getPostsByTheme } from "@/api/post";
 import { useToast } from "@/components/ui/use-toast";
 import { dateFormatted } from "@/lib/utils";
+import { imageupload } from "@/api/pic";
 
 const subSwitchs = [
   {
@@ -83,6 +84,7 @@ export default function Posts() {
       author: string;
       date: string;
       content: string;
+      image: string;
     }[]
   >([]);
   const [currentRank, setCurrentRank] = useState<number>(0);
@@ -90,6 +92,7 @@ export default function Posts() {
   const [title, setTitle] = useState("");
   const editorRef = useRef<Editor>(null);
   const [theme, setTheme] = useState("");
+  const [image, setImage] = useState("");
   const [draweropen, setDrawerOpen] = useState(false);
 
   const { toast } = useToast();
@@ -107,6 +110,7 @@ export default function Posts() {
       title: title,
       theme: theme,
       content: editorRef.current?.getInstance().getMarkdown(),
+      img: image,
     });
     if (id) {
       setDrawerOpen(false);
@@ -117,6 +121,20 @@ export default function Posts() {
         description: "帖子发送成功，进入审核阶段~",
       });
     }
+  };
+
+  const updateShowBaseImage = () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.multiple = false;
+    input.onchange = (e) => {
+      const file = (e.target as HTMLInputElement).files!;
+      imageupload(file).then((res) => {
+        setImage(res[0].filePath);
+      });
+    };
+    input.click();
   };
 
   useEffect(() => {
@@ -132,9 +150,10 @@ export default function Posts() {
         res.map((item) => ({
           id: item.id,
           title: item.title,
-          author: item.creator,
+          author: item.nickname,
           date: dateFormatted(item.createTime),
           content: item.content,
+          image: item.img,
         }))
       );
     });
@@ -154,7 +173,7 @@ export default function Posts() {
           />
         ))}
       </div>
-      <div className="flex flex-col h-full w-[70%] min-w-[70%] max-w-[70%]">
+      <div className="flex h-screen flex-col w-[70%] min-w-[70%] max-w-[70%]">
         <div className="text-xl font-bold">
           {subSwitchs[parseInt(currentSub)].title}
         </div>
@@ -163,7 +182,16 @@ export default function Posts() {
           {sub.map((item) => (
             <div key={item.id} className="flex gap-2 my-2 cursor-pointer">
               <div className="flex w-full gap-2">
-                <div className="h-[125px] w-[250px] rounded-xl bg-sky-300" />
+                <div className="h-[125px] w-[250px] rounded-xl border overflow-hidden">
+                  <div
+                    className="h-[125px] w-[250px] transition-all hover:scale-110 bg-center bg-cover"
+                    style={{
+                      backgroundImage: `url(${
+                        import.meta.env.VITE_MINIO_ENDPOINT
+                      }/images${item.image})`,
+                    }}
+                  ></div>
+                </div>
                 <div className="flex flex-col truncate">
                   <div className="text-lg font-bold mb-5">{item.title}</div>
                   <div className="text-sm text-gray-400">{item.author}</div>
@@ -231,16 +259,14 @@ export default function Posts() {
               </DrawerDescription>
             </DrawerHeader>
             <div className="px-4 w-full pb-0">
-              <div className="flex items-center gap-3 pb-2">
-                标题
+              <div className="flex items-center pb-2">
+                <div className="min-w-[60px]">标题</div>
                 <Input
                   className="w-[20rem]"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
-              </div>
-              <div className="flex gap-3 items-center pb-2">
-                主题
+                <div className="min-w-[40px] ml-2">主题</div>
                 <Select onValueChange={setTheme}>
                   <SelectTrigger className="w-[180px]">
                     <SelectValue placeholder="选择帖子主题" />
@@ -255,11 +281,29 @@ export default function Posts() {
                   </SelectContent>
                 </Select>
               </div>
+              <div className="flex items-center gap-3 pb-2">
+                展示图
+                <button
+                  className="text-gray-400 transition-all hover:text-gray-600 border w-[100px] cursor-pointer"
+                  onClick={() => updateShowBaseImage()}
+                >
+                  {(image && (
+                    <div
+                      className="w-[100px] h-[100px] bg-cover bg-center"
+                      style={{
+                        backgroundImage: `url(${
+                          import.meta.env.VITE_MINIO_ENDPOINT
+                        }/images${image})`,
+                      }}
+                    ></div>
+                  )) || <GoPlus size={100} />}
+                </button>
+              </div>
               <div className="flex flex-col gap-2">
                 内容
                 <Editor
                   previewStyle="vertical"
-                  height="600px"
+                  height="400px"
                   initialEditType="markdown"
                   useCommandShortcut={true}
                   ref={editorRef}

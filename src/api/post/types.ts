@@ -16,6 +16,8 @@ interface forumPost extends Base {
   status: boolean;
   status_desc: string;
   recommend: boolean;
+  nickname: string;
+  img: string;
 }
 
 export type { forumPost };
