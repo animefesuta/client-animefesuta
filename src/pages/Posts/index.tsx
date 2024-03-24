@@ -30,27 +30,28 @@ import {
 
 import { Editor } from "@toast-ui/react-editor";
 import { Input } from "@/components/ui/input";
-import { createPost } from "@/api/post";
+import { createPost, getPostsByTheme } from "@/api/post";
 import { useToast } from "@/components/ui/use-toast";
+import { dateFormatted } from "@/lib/utils";
 
 const subSwitchs = [
   {
-    id: 0,
+    id: "0",
     title: "推荐",
     icon: <GoThumbsup />,
   },
   {
-    id: 1,
+    id: "1",
     title: "杂谈",
     icon: <AiOutlineNumber />,
   },
   {
-    id: 2,
+    id: "2",
     title: "摄影",
     icon: <IoCameraOutline />,
   },
   {
-    id: 3,
+    id: "3",
     title: "同人",
     icon: <GiSesame />,
   },
@@ -77,7 +78,7 @@ export default function Posts() {
   // 文章
   const [sub, setSub] = useState<
     {
-      id: number;
+      id: string;
       title: string;
       author: string;
       date: string;
@@ -85,7 +86,7 @@ export default function Posts() {
     }[]
   >([]);
   const [currentRank, setCurrentRank] = useState<number>(0);
-  const [currentSub, setCurrentSub] = useState<number>(0);
+  const [currentSub, setCurrentSub] = useState<string>("0");
   const [title, setTitle] = useState("");
   const editorRef = useRef<Editor>(null);
   const [theme, setTheme] = useState("");
@@ -97,9 +98,10 @@ export default function Posts() {
     setCurrentRank(rank);
   };
 
-  const getSub = (sub: number) => {
+  const getSub = (sub: string) => {
     setCurrentSub(sub);
   };
+
   const submit = async () => {
     const { id } = await createPost({
       title: title,
@@ -124,16 +126,18 @@ export default function Posts() {
         title: `标题标题标题标题标题标题标题标题标题标题标题${i}`,
       }))
     );
-    setSub(
-      Array.from({ length: currentSub }, (_, i) => ({
-        id: i,
-        title: `标题标题标题标题标题标题标题标题标题标题标题`,
-        author: "作者",
-        date: "2022-01-01",
-        content:
-          "dsadhasudhsdkahdkdsadhasudhsdkahdkdsadhasudhsdkahdkdsadhasudhsdkahdkdsadhasudhsdkahdkdsadhasudhsdkahdkdsadhasudhsdkahdk",
-      }))
-    );
+
+    getPostsByTheme(currentSub).then((res) => {
+      setSub(
+        res.map((item) => ({
+          id: item.id,
+          title: item.title,
+          author: item.creator,
+          date: dateFormatted(item.createTime),
+          content: item.content,
+        }))
+      );
+    });
   }, [currentRank, currentSub]);
 
   return (
@@ -151,7 +155,9 @@ export default function Posts() {
         ))}
       </div>
       <div className="flex flex-col h-full w-[70%] min-w-[70%] max-w-[70%]">
-        <div className="text-xl font-bold">{subSwitchs[currentSub].title}</div>
+        <div className="text-xl font-bold">
+          {subSwitchs[parseInt(currentSub)].title}
+        </div>
         {/* 文章列表 */}
         <div className="h-full bg-white px-2">
           {sub.map((item) => (

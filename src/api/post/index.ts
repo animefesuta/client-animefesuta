@@ -8,4 +8,18 @@ const createPost = async (
   return res.data.data;
 };
 
-export { createPost };
+const getPostsByTheme = async (theme: string): Promise<forumPost[]> => {
+  const res = await axios.get("/api/v1/fesuta/forum/getPostsByTheme", {
+    params: {
+      theme: theme,
+    },
+  });
+  return res.data.data;
+};
+
+const getRecommendPosts = async (): Promise<forumPost[]> => {
+  const res = await axios.get("/api/v1/fesuta/forum/getPostsRecommend");
+  return res.data.data;
+};
+
+export { createPost, getPostsByTheme, getRecommendPosts };

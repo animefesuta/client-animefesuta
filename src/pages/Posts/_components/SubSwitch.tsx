@@ -1,9 +1,9 @@
 import clsx from "clsx";
 interface SubSwitchProps {
-  sub: number;
-  currentSub: number;
+  sub: string;
+  currentSub: string;
   title: string;
-  getSub: (sub: number) => void;
+  getSub: (sub: string) => void;
   iconel: () => JSX.Element;
 }
 
