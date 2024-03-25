@@ -76,8 +76,9 @@ export default function User() {
         style={{
           backgroundImage: backgroundImage,
           backgroundSize: "cover",
+          backgroundPosition: "10% 10%",
         }}
-        className="bg-violet-400 w-full h-[200px] flex items-center px-6"
+        className="bg-violet-400 w-full h-[250px] flex items-center px-6"
       >
         <div className="flex text-white items-center gap-6">
           <div className="flex items-end justify-center">
@@ -103,8 +104,11 @@ export default function User() {
               UID: {userInfo.uid}
             </div>
             <div className="flex gap-3">
-              <button className="text-[12px] text-black bg-white hover:bg-gray-200 transition-all px-3 py-1 rounded">
+              <button className="text-[12px] text-black flex justify-center items-center bg-white hover:bg-gray-200 transition-all px-3 py-1 rounded">
                 AI创作中心
+                <span className="text-red-500 text-[10px] mx-1 px-1 rounded-full bg-[#f5f5f5]">
+                  VIP
+                </span>
               </button>
               <button
                 className="text-[12px] text-black bg-white hover:bg-gray-200 transition-all px-3 py-1 rounded"
