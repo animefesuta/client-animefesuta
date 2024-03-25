@@ -25,7 +25,7 @@ export default function Live() {
   }, [toast]); */
   useEffect(() => {
     getLatestPlaybackId().then((res) => {
-      setNewPlay(res.id);
+      setNewPlay(res.data);
     });
   }, []);
   return (

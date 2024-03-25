@@ -71,7 +71,7 @@ const closeLiveRoom = () => {
       });
   });
 };
-const getLatestPlaybackId = (): Promise<{ id: string }> => {
+const getLatestPlaybackId = (): Promise<{ data: string }> => {
   return new Promise((resolve, reject) => {
     axios
       .get(`${import.meta.env.VITE_NODE_ENDPOINT}/livestream/latest`)
