@@ -20,4 +20,6 @@ interface forumPost extends Base {
   img: string;
 }
 
-export type { forumPost };
+type Ranking = Pick<forumPost, "id" | "title">;
+
+export type { forumPost, Ranking };

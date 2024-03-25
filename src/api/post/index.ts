@@ -1,5 +1,5 @@
 import axios from "@/plugins/axios";
-import { forumPost } from "./types";
+import { Ranking, forumPost } from "./types";
 
 const createPost = async (
   data: Pick<forumPost, "title" | "theme" | "content" | "img">
@@ -22,4 +22,9 @@ const getRecommendPosts = async (): Promise<forumPost[]> => {
   return res.data.data;
 };
 
-export { createPost, getPostsByTheme, getRecommendPosts };
+const getRanking = async (): Promise<Ranking[]> => {
+  const res = await axios.get("/api/v1/fesuta/forum/getRanking");
+  return res.data.data;
+};
+
+export { createPost, getPostsByTheme, getRecommendPosts, getRanking };

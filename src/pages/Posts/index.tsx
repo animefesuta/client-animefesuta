@@ -30,10 +30,11 @@ import {
 
 import { Editor } from "@toast-ui/react-editor";
 import { Input } from "@/components/ui/input";
-import { createPost, getPostsByTheme } from "@/api/post";
+import { createPost, getPostsByTheme, getRanking } from "@/api/post";
 import { useToast } from "@/components/ui/use-toast";
 import { dateFormatted } from "@/lib/utils";
 import { imageupload } from "@/api/pic";
+import { Ranking, forumPost } from "@/api/post/types";
 
 const subSwitchs = [
   {
@@ -58,36 +59,16 @@ const subSwitchs = [
   },
 ];
 
-const rankSwitchs = [
-  {
-    id: 0,
-    title: "今天",
-  },
-  {
-    id: 1,
-    title: "本周",
-  },
-  {
-    id: 2,
-    title: "本月",
-  },
-];
-
 export default function Posts() {
   // 排行榜
-  const [ranks, setRanks] = useState<{ id: number; title: string }[]>([]);
+  const [ranks, setRanks] = useState<Ranking[]>();
   // 文章
   const [sub, setSub] = useState<
-    {
-      id: string;
-      title: string;
-      author: string;
-      date: string;
-      content: string;
-      image: string;
-    }[]
+    Pick<
+      forumPost,
+      "id" | "title" | "nickname" | "content" | "img" | "createTime"
+    >[]
   >([]);
-  const [currentRank, setCurrentRank] = useState<number>(0);
   const [currentSub, setCurrentSub] = useState<string>("0");
   const [title, setTitle] = useState("");
   const editorRef = useRef<Editor>(null);
@@ -96,10 +77,6 @@ export default function Posts() {
   const [draweropen, setDrawerOpen] = useState(false);
 
   const { toast } = useToast();
-
-  const getRanks = (rank: number) => {
-    setCurrentRank(rank);
-  };
 
   const getSub = (sub: string) => {
     setCurrentSub(sub);
@@ -139,26 +116,23 @@ export default function Posts() {
   };
 
   useEffect(() => {
-    setRanks(
-      Array.from({ length: currentRank }, (_, i) => ({
-        id: i,
-        title: `标题标题标题标题标题标题标题标题标题标题标题${i}`,
-      }))
-    );
+    getRanking().then((res) => {
+      setRanks(res);
+    });
 
     getPostsByTheme(currentSub).then((res) => {
       setSub(
         res.map((item) => ({
           id: item.id,
           title: item.title,
-          author: item.nickname,
-          date: dateFormatted(item.createTime),
+          nickname: item.nickname,
+          createTime: dateFormatted(item.createTime),
           content: item.content,
-          image: item.img,
+          img: item.img,
         }))
       );
     });
-  }, [currentRank, currentSub]);
+  }, [currentSub]);
 
   return (
     <div className="flex px-12 py-3 gap-5 justify-around">
@@ -189,7 +163,7 @@ export default function Posts() {
                     style={{
                       backgroundImage: `url(${
                         import.meta.env.VITE_MINIO_ENDPOINT
-                      }/images${item.image})`,
+                      }/images${item.img})`,
                     }}
                   ></div>
                 </div>
@@ -199,9 +173,9 @@ export default function Posts() {
                     {item.content}
                   </div>
                   <div className="flex justify-between pr-3">
-                    <div className="text-sm text-gray-400">{item.author}</div>
+                    <div className="text-sm text-gray-400">{item.nickname}</div>
                     <div className="text-sm text-gray-400 text-[10px]">
-                      {item.date}
+                      {item.createTime}
                     </div>
                   </div>
                 </div>
@@ -221,7 +195,7 @@ export default function Posts() {
         <div>
           <div className="flex h-5 items-center text-sm">
             <div className="text-xl font-bold min-w-fit">排行榜</div>
-            {rankSwitchs.map((item) => (
+            {/* {rankSwitchs.map((item) => (
               <Button
                 disabled={currentRank === item.id}
                 key={item.id}
@@ -231,27 +205,28 @@ export default function Posts() {
               >
                 {item.title}
               </Button>
-            ))}
+            ))} */}
           </div>
           <Separator className="my-1" />
         </div>
         <div className="flex flex-col gap-2">
-          {ranks.map((rank, i) => (
-            <div
-              key={rank.id}
-              className="text-nowrap flex gap-2 overflow-hidden"
-            >
-              <Badge
-                variant={i < 3 ? "destructive" : "default"}
-                className="text-sm w-6 flex justify-center items-center"
+          {ranks &&
+            ranks.map((rank, i) => (
+              <div
+                key={rank.id}
+                className="text-nowrap flex gap-2 overflow-hidden"
               >
-                {i + 1}
-              </Badge>
-              <div className="w-[90%] truncate hover:underline cursor-pointer">
-                {rank.title}
+                <Badge
+                  variant={i < 3 ? "destructive" : "default"}
+                  className="text-sm w-6 flex justify-center items-center"
+                >
+                  {i + 1}
+                </Badge>
+                <div className="w-[90%] truncate hover:underline cursor-pointer">
+                  {rank.title}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
         </div>
       </div>
       <Drawer open={draweropen} onOpenChange={setDrawerOpen}>
