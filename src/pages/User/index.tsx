@@ -139,7 +139,7 @@ export default function User() {
         </div>
         <div className="flex-1">
           {profileId === 0 && <PersonalInfo {...userInfo} />}
-          {profileId === 1 && <LiveSettings {...userInfo} />}
+          {profileId === 1 && <LiveSettings />}
           {profileId === 2 && <div>返图管理</div>}
           {profileId === 3 && <div>我的贴子</div>}
           {profileId === 4 && <div>活动详情</div>}

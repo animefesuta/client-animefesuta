@@ -3,4 +3,10 @@ type LiveStream = {
   key: string;
 };
 
-export type { LiveStream };
+type CreateLive = {
+  title: string;
+  cover: string;
+  category: string;
+};
+
+export type { LiveStream, CreateLive };
