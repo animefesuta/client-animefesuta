@@ -87,10 +87,29 @@ const getLatestPlaybackId = (): Promise<{ data: string }> => {
   });
 };
 
+const getRoomByUID = (uid: string): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(
+        `${import.meta.env.VITE_NODE_ENDPOINT}/livestream/getRoomStream/${uid}`
+      )
+      .then((res) => {
+        resolve(res.data.data);
+      })
+      .catch((err) => {
+        reject({
+          code: 500,
+          message: err,
+        });
+      });
+  });
+};
+
 export {
   createLiveStream,
   getLatestPlaybackId,
   getLiveRoom,
   updateLiveRoom,
   closeLiveRoom,
+  getRoomByUID,
 };

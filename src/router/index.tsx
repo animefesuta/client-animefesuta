@@ -1,9 +1,12 @@
 import Home from "@/pages/Home";
 import Index from "@/pages/Index";
 import Live from "@/pages/Live";
+import LivePreview from "@/pages/Live/Preview";
 import NoPage from "@/pages/NoPage";
 import Pics from "@/pages/Pics";
+import PicPreview from "@/pages/Pics/Preview";
 import Posts from "@/pages/Posts";
+import PostPreview from "@/pages/Posts/Preview";
 import User from "@/pages/User";
 import { createBrowserRouter, redirect } from "react-router-dom";
 
@@ -37,13 +40,28 @@ export const router = createBrowserRouter([
         loader: rootLoader,
       },
       {
+        path: "/picback/:id",
+        element: <PicPreview />,
+        loader: rootLoader,
+      },
+      {
         path: "/live",
         element: <Live />,
         loader: rootLoader,
       },
       {
+        path: "/live/:uid",
+        element: <LivePreview />,
+        loader: rootLoader,
+      },
+      {
         path: "/posts",
         element: <Posts />,
+        loader: rootLoader,
+      },
+      {
+        path: "/posts/:id",
+        element: <PostPreview />,
         loader: rootLoader,
       },
       {
