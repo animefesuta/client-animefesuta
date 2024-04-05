@@ -6,6 +6,12 @@ import { LiveSettings } from "./_components/LiveSettings";
 import { imageupload } from "@/api/pic";
 import { updateUserBackground } from "@/api/user";
 import { useToast } from "@/components/ui/use-toast";
+import { PostManage } from "./_components/PostManage";
+import { PicsManage } from "./_components/PicsManage";
+import { NewsManage } from "./_components/NewsManage";
+import { LivingManage } from "./_components/LivingManage";
+import { UserManage } from "./_components/UserManage";
+import { SystemManage } from "./_components/SystemManage";
 
 const profileList = [
   {
@@ -26,7 +32,20 @@ const profileList = [
   },
   {
     id: 4,
-    title: "活动详情",
+    title: "活动管理",
+  },
+  // ADMIN
+  {
+    id: 5,
+    title: "直播管理",
+  },
+  {
+    id: 6,
+    title: "用户管理",
+  },
+  {
+    id: 7,
+    title: "系统信息",
   },
 ];
 
@@ -34,6 +53,7 @@ export default function User() {
   const { userInfo, updateUserInfo } = useUserStore();
   const [profileId, setProfileId] = useState(0);
   const [backgroundImage, setBackground] = useState(userInfo.backgroundImage);
+  const [profileListC, setProfileListC] = useState(profileList);
 
   const { toast } = useToast();
 
@@ -47,7 +67,12 @@ export default function User() {
     } else {
       setBackground("");
     }
-  }, [userInfo.backgroundImage]);
+    if (userInfo.type != "10") {
+      setProfileListC(profileList.slice(0, 5));
+    } else {
+      setProfileListC(profileList);
+    }
+  }, [userInfo.backgroundImage, userInfo.type]);
 
   const updateBackground = () => {
     const input = document.createElement("input");
@@ -122,7 +147,7 @@ export default function User() {
       </div>
       <div className="flex-1 flex overflow-auto">
         <div className="w-[200px] overflow-auto border-r-2 h-full flex flex-col">
-          {profileList.map((item) => (
+          {profileListC.map((item) => (
             <div
               className={
                 profileId === item.id
@@ -140,9 +165,13 @@ export default function User() {
         <div className="flex-1">
           {profileId === 0 && <PersonalInfo {...userInfo} />}
           {profileId === 1 && <LiveSettings />}
-          {profileId === 2 && <div>返图管理</div>}
-          {profileId === 3 && <div>我的贴子</div>}
-          {profileId === 4 && <div>活动详情</div>}
+          {profileId === 2 && <PicsManage />}
+          {profileId === 3 && <PostManage />}
+          {profileId === 4 && <NewsManage />}
+          {/* 以下为管理员专用 */}
+          {profileId === 5 && <LivingManage />}
+          {profileId === 6 && <UserManage />}
+          {profileId === 7 && <SystemManage />}
         </div>
       </div>
     </div>
