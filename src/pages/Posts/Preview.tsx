@@ -54,8 +54,9 @@ const Preview: React.FC = () => {
   const handleShareCount = () => {
     shareCount(id!).then((res) => {
       if (res === true) {
+        navigator.clipboard.writeText(window.location.href);
         toast({
-          description: "分享成功",
+          description: "链接复制成功，快去分享给好朋友吧~",
         });
       }
     });
