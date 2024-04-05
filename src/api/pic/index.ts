@@ -1,6 +1,7 @@
 import axios from "@/plugins/axios";
 import { Authors, PicForm, PostPics } from "./types";
 import { ImageProps } from "@/components/cards/types";
+import { SendComment } from "../post/types";
 
 const imageupload = async (data: FileList): Promise<ImageProps[]> => {
   return new Promise((resolve, reject) => {
@@ -74,6 +75,50 @@ const getBanner = async (): Promise<PostPics[]> => {
   return [];
 };
 
+const getCos = async (id: string): Promise<PostPics> => {
+  const res = await axios.get("/api/v1/fesuta/cos/getCosById", {
+    params: {
+      id: id,
+    },
+  });
+  return res.data.data;
+};
+
+const sendCommentWithId = async (comment: SendComment): Promise<boolean> => {
+  return (await axios.post("/api/v1/fesuta/cos/sendComment", comment)).data
+    .data;
+};
+
+const getComments = async (cosId: string): Promise<Comment[]> => {
+  return await axios
+    .get("/api/v1/fesuta/cos/getComments", {
+      params: {
+        id: cosId,
+      },
+    })
+    .then((res) => res.data.data);
+};
+
+const likeCount = async (cosId: string): Promise<boolean> => {
+  return await axios
+    .get("/api/v1/fesuta/cos/likeCount", {
+      params: {
+        id: cosId,
+      },
+    })
+    .then((res) => res.data.data);
+};
+
+const shareCount = async (cosId: string): Promise<boolean> => {
+  return await axios
+    .get("/api/v1/fesuta/cos/shareCount", {
+      params: {
+        id: cosId,
+      },
+    })
+    .then((res) => res.data.data);
+};
+
 export {
   imageupload,
   postpic,
@@ -81,4 +126,9 @@ export {
   getAllAuthors,
   getRecommendPosts,
   getBanner,
+  getCos,
+  sendCommentWithId,
+  getComments,
+  likeCount,
+  shareCount,
 };

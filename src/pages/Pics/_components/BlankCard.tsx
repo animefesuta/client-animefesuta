@@ -5,6 +5,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import clsx from "clsx";
+import { Link } from "react-router-dom";
 
 interface CardProps {
   cardTitle: string;
@@ -15,7 +16,10 @@ interface CardProps {
 
 const BlankCard: React.FC<CardProps> = ({ ...CardProps }) => {
   return (
-    <div className="w-[180px] transition-all hover:w-[420px] h-[300px] cursor-pointer">
+    <Link
+      to={`/picback/${CardProps.cardId}`}
+      className="w-[180px] transition-all hover:w-[420px] h-[300px] cursor-pointer"
+    >
       <div
         style={{ backgroundImage: `url(${CardProps.cardUrl})` }}
         className={clsx("rounded-lg w-full h-[239px] bg-cover bg-center")}
@@ -46,7 +50,7 @@ const BlankCard: React.FC<CardProps> = ({ ...CardProps }) => {
           </TooltipProvider>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

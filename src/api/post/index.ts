@@ -50,6 +50,27 @@ const getComments = async (postId: string): Promise<Comment[]> => {
     })
     .then((res) => res.data.data);
 };
+
+const likeCount = async (postId: string): Promise<boolean> => {
+  return await axios
+    .get("/api/v1/fesuta/forum/likeCount", {
+      params: {
+        id: postId,
+      },
+    })
+    .then((res) => res.data.data);
+};
+
+const shareCount = async (postId: string): Promise<boolean> => {
+  return await axios
+    .get("/api/v1/fesuta/forum/shareCount", {
+      params: {
+        id: postId,
+      },
+    })
+    .then((res) => res.data.data);
+};
+
 export {
   createPost,
   getPostsByTheme,
@@ -58,4 +79,6 @@ export {
   getPost,
   sendCommentWithId,
   getComments,
+  likeCount,
+  shareCount,
 };

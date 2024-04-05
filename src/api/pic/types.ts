@@ -26,6 +26,10 @@ type PostPics = {
   title: string;
   updateTime: string;
   updater: string;
+  nickName: string;
+  clickCount: string;
+  likeCount: string;
+  shareCount: string;
 };
 
 type BannerPics = Pick<PostPics, "id" | "image">;
