@@ -9,4 +9,11 @@ type CreateLive = {
   category: string;
 };
 
-export type { LiveStream, CreateLive };
+type LiveRoom = {
+  cover: string;
+  title: string;
+  creator: string;
+  key: string;
+};
+
+export type { LiveStream, CreateLive, LiveRoom };

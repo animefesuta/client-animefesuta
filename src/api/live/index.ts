@@ -1,5 +1,5 @@
 import axios from "@/plugins/axios";
-import { CreateLive, LiveStream } from "./types";
+import { CreateLive, LiveRoom, LiveStream } from "./types";
 
 const createLiveStream = (createlive: CreateLive): Promise<LiveStream> => {
   return new Promise((resolve, reject) => {
@@ -105,6 +105,11 @@ const getRoomByUID = (uid: string): Promise<string> => {
   });
 };
 
+const getAllLivingRoom = async (): Promise<LiveRoom[]> => {
+  return await axios
+    .get("/api/v1/fesuta/live/getAllLivingRoom")
+    .then((res) => res.data.data);
+};
 export {
   createLiveStream,
   getLatestPlaybackId,
@@ -112,4 +117,5 @@ export {
   updateLiveRoom,
   closeLiveRoom,
   getRoomByUID,
+  getAllLivingRoom,
 };
