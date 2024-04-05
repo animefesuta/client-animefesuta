@@ -71,6 +71,18 @@ const updateUserEmail = async (userInfo: Partial<UserInfo>): Promise<void> => {
   return await axios.post("/api/v1/fesuta/user/updateEmail", userInfo);
 };
 
+const signCoser = async (apply: {
+  phone: string;
+  signDesc: string;
+}): Promise<UserInfo> => {
+  return await axios.post("/api/v1/fesuta/user/signCoser", apply);
+};
+const signMerchant = async (apply: {
+  phone: string;
+  signDesc: string;
+}): Promise<UserInfo> => {
+  return await axios.post("/api/v1/fesuta/user/signMerchant", apply);
+};
 export {
   signin,
   login,
@@ -80,4 +92,6 @@ export {
   updateUserNickName,
   updateUserBackground,
   updateUserEmail,
+  signCoser,
+  signMerchant,
 };

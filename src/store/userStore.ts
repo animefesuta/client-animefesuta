@@ -1,6 +1,12 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import { getUserInfo, login, signin } from "@/api/user";
+import {
+  getUserInfo,
+  login,
+  signin,
+  signCoser,
+  signMerchant,
+} from "@/api/user";
 import { UserForm, UserInfo } from "./types";
 
 interface UserState {
@@ -11,6 +17,14 @@ interface UserState {
   ) => Promise<boolean>;
   updateUserInfo: (userinfo: UserInfo) => void;
   userLogout: () => void;
+  signCoser: (signInfo: {
+    phone: string;
+    signDesc: string;
+  }) => Promise<UserInfo>;
+  signMerchant: (signInfo: {
+    phone: string;
+    signDesc: string;
+  }) => Promise<UserInfo>;
   userToken: string;
   userInfo: UserInfo;
 }
@@ -45,6 +59,12 @@ export const useUserStore = create(
       },
       updateUserInfo: (userinfo: UserInfo) => {
         set({ userInfo: userinfo });
+      },
+      signCoser: async (signInfo: { phone: string; signDesc: string }) => {
+        return await signCoser(signInfo);
+      },
+      signMerchant: async (signInfo: { phone: string; signDesc: string }) => {
+        return await signMerchant(signInfo);
       },
       userToken: "",
       userInfo: {} as UserInfo,

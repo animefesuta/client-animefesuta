@@ -27,6 +27,7 @@ import {
 import { SignIn } from "../user/SignIn";
 import { LogIn } from "../user/LogIn";
 import { Cloud, CreditCard, LifeBuoy, LogOut, User } from "lucide-react";
+import { UserSign } from "../user/UserSign";
 
 interface Link {
   name: string;
@@ -43,7 +44,22 @@ const PCNav: FC<NavProps> = ({ currentRoute, links }) => {
   const { userloginstate, userLogout, userInfo } = useUserStore();
   const [logInOpen, setLogInOpen] = useState(false);
   const [signInOpen, setSignInOpen] = useState(false);
+  const [signUserOpen, setSignUserOpen] = useState(false);
+  const [signType, setSignType] = useState(0);
+  const [signUserOpenTitle, setSignUserOpenTitle] = useState("");
   const navigate = useNavigate();
+  console.log(userInfo);
+
+  const signMerchant = () => {
+    setSignType(0);
+    setSignUserOpenTitle("申请成为商家");
+    setSignUserOpen(true);
+  };
+  const signCoser = () => {
+    setSignType(1);
+    setSignUserOpenTitle("申请成为Coser");
+    setSignUserOpen(true);
+  };
 
   const logOut = useCallback(() => {
     userLogout();
@@ -131,12 +147,17 @@ const PCNav: FC<NavProps> = ({ currentRoute, links }) => {
                     <span>订单</span>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => navigate("/")}>
-                    商家认证
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => navigate("/")}>
-                    Coser认证
-                  </DropdownMenuItem>
+                  {userInfo.type && userInfo.type.toString() === "40" && (
+                    <>
+                      <DropdownMenuItem onClick={() => signMerchant()}>
+                        商家认证
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => signCoser()}>
+                        Coser认证
+                      </DropdownMenuItem>
+                    </>
+                  )}
+
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={() => navigate("/")}>
                     <LifeBuoy className="mr-2 h-4 w-4" />
@@ -196,6 +217,14 @@ const PCNav: FC<NavProps> = ({ currentRoute, links }) => {
               openDialog={setSignInOpen}
               openLogin={() => setLogInOpen(true)}
             />
+          </AlertDialogDescription>
+        </AlertDialogContent>
+      </AlertDialog>
+      <AlertDialog open={signUserOpen}>
+        <AlertDialogContent>
+          <AlertDialogTitle>{signUserOpenTitle}</AlertDialogTitle>
+          <AlertDialogDescription>
+            <UserSign openDialog={setSignUserOpen} signType={signType} />
           </AlertDialogDescription>
         </AlertDialogContent>
       </AlertDialog>

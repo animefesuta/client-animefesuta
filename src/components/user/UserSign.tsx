@@ -20,43 +20,45 @@ import { useUserStore } from "@/store/userStore";
 import { useToast } from "@/components/ui/use-toast";
 
 interface LoginInProps {
+  signType: number;
   openDialog: (open: boolean) => void;
 }
 
 const formSchema = z.object({
-  useremail: z.string().email({ message: "请输入正确的邮箱地址." }),
-  password: z.string().min(8, {
-    message: "密码需要至少 8 个字符.",
+  signDesc: z.string().min(20, {
+    message: "请输入申请理由并且不少于20个字符",
   }),
+  phone: z.string().regex(/^1\d{10}$/, { message: "请输入正确的手机号码" }),
 });
 
-const LogIn: FC<LoginInProps> = ({ openDialog }) => {
-  const { userLogin } = useUserStore();
+const UserSign: FC<LoginInProps> = ({ openDialog, signType }) => {
+  const { signCoser, signMerchant } = useUserStore();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      useremail: "",
-      password: "",
+      signDesc: "",
+      phone: "",
     },
   });
 
   const { toast } = useToast();
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    userLogin(values)
-      .then((res) => {
-        if (res === true) {
-          toast({
-            description: "欢迎回来。",
-          });
-          openDialog(false);
-        }
-      })
-      .catch((err) => {
+    if (signType === 0) {
+      signMerchant(values).then(() => {
+        openDialog(false);
         toast({
-          description: `登录失败：${err}`,
+          description: "收到您的申请，请等待审核",
         });
       });
+    } else {
+      signCoser(values).then(() => {
+        openDialog(false);
+        toast({
+          description: "收到您的申请，请等待审核",
+        });
+      });
+    }
   }
 
   return (
@@ -64,28 +66,25 @@ const LogIn: FC<LoginInProps> = ({ openDialog }) => {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
-          name="useremail"
+          name="phone"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>邮箱</FormLabel>
+              <FormLabel>联系方式</FormLabel>
               <FormControl>
-                <Input placeholder="输入邮箱..." {...field} />
+                <Input placeholder="输入联系方式..." {...field} />
               </FormControl>
-              {/* <FormDescription>
-                This is your public display name.
-              </FormDescription> */}
               <FormMessage />
             </FormItem>
           )}
         />
         <FormField
           control={form.control}
-          name="password"
+          name="signDesc"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>密码</FormLabel>
+              <FormLabel>申请理由</FormLabel>
               <FormControl>
-                <Input placeholder="********" {...field} type="password" />
+                <Input placeholder="输入申请理由..." {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -101,11 +100,11 @@ const LogIn: FC<LoginInProps> = ({ openDialog }) => {
           >
             关闭
           </Button>
-          <Button type="submit">登录</Button>
+          <Button type="submit">提交</Button>
         </div>
       </form>
     </Form>
   );
 };
 
-export { LogIn };
+export { UserSign };
