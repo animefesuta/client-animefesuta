@@ -1,5 +1,5 @@
 import axios from "@/plugins/axios";
-import { Ranking, forumPost } from "./types";
+import { Comment, Ranking, SendComment, forumPost } from "./types";
 
 const createPost = async (
   data: Pick<forumPost, "title" | "theme" | "content" | "img">
@@ -27,4 +27,35 @@ const getRanking = async (): Promise<Ranking[]> => {
   return res.data.data;
 };
 
-export { createPost, getPostsByTheme, getRecommendPosts, getRanking };
+const getPost = async (id: string): Promise<forumPost> => {
+  const res = await axios.get("/api/v1/fesuta/forum/getPostById", {
+    params: {
+      id: id,
+    },
+  });
+  return res.data.data;
+};
+
+const sendCommentWithId = async (comment: SendComment): Promise<boolean> => {
+  return (await axios.post("/api/v1/fesuta/forum/sendComment", comment)).data
+    .data;
+};
+
+const getComments = async (postId: string): Promise<Comment[]> => {
+  return await axios
+    .get("/api/v1/fesuta/forum/getComments", {
+      params: {
+        id: postId,
+      },
+    })
+    .then((res) => res.data.data);
+};
+export {
+  createPost,
+  getPostsByTheme,
+  getRecommendPosts,
+  getRanking,
+  getPost,
+  sendCommentWithId,
+  getComments,
+};

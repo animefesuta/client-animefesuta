@@ -22,4 +22,25 @@ interface forumPost extends Base {
 
 type Ranking = Pick<forumPost, "id" | "title">;
 
-export type { forumPost, Ranking };
+type Comment = {
+  commentContext: string;
+  commentLike: string;
+  commentUser: string;
+  commentUserNickName: string;
+  createTime: string;
+  creator: string;
+  deleted: boolean;
+  id: string;
+  parentID: string;
+  themeID: string;
+  typeID: string;
+  updateTime: string;
+  updater: string;
+  user_image: string;
+};
+type SendComment = {
+  commentContext: string;
+  themeID: string;
+};
+
+export type { forumPost, Ranking, SendComment, Comment };

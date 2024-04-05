@@ -35,6 +35,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { dateFormatted } from "@/lib/utils";
 import { imageupload } from "@/api/pic";
 import { Ranking, forumPost } from "@/api/post/types";
+import { NavLink } from "react-router-dom";
 
 const subSwitchs = [
   {
@@ -155,7 +156,11 @@ export default function Posts() {
         {/* 文章列表 */}
         <div className="h-full bg-white px-2">
           {sub.map((item) => (
-            <div key={item.id} className="flex gap-2 my-2 cursor-pointer">
+            <NavLink
+              to={`/posts/${item.id}`}
+              key={item.id}
+              className="flex gap-2 my-2 cursor-pointer"
+            >
               <div className="flex w-full gap-2">
                 <div className="h-[125px] min-w-[250px] rounded-xl border overflow-hidden">
                   <div
@@ -180,7 +185,7 @@ export default function Posts() {
                   </div>
                 </div>
               </div>
-            </div>
+            </NavLink>
           ))}
         </div>
       </div>
