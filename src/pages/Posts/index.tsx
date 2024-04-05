@@ -287,6 +287,25 @@ export default function Posts() {
                   initialEditType="markdown"
                   useCommandShortcut={true}
                   ref={editorRef}
+                  hooks={{
+                    addImageBlobHook: async (
+                      blob: File,
+                      callback: (url: string, alt: string) => void
+                    ) => {
+                      const dataTransfer = new DataTransfer();
+                      dataTransfer.items.add(blob);
+                      const fileList = dataTransfer.files;
+                      const uploadedImageURL = await imageupload(fileList);
+
+                      callback(
+                        `${import.meta.env.VITE_MINIO_ENDPOINT}/images${
+                          uploadedImageURL[0].filePath
+                        }`,
+                        uploadedImageURL[0].id
+                      );
+                      return false;
+                    },
+                  }}
                 />
               </div>
             </div>
