@@ -119,6 +119,31 @@ const shareCount = async (cosId: string): Promise<boolean> => {
     .then((res) => res.data.data);
 };
 
+const getAllCoses = async (): Promise<PostPics[]> => {
+  const res = await axios.get("/api/v1/manage/post/getallpicposts");
+  if (res.data.code === 200) {
+    return res.data.data;
+  }
+  return [];
+};
+const getAICoses = async (): Promise<PostPics[]> => {
+  const res = await axios.get("/api/v1/manage/post/getallaiposts");
+  if (res.data.code === 200) {
+    return res.data.data;
+  }
+  return [];
+};
+
+const removePic = async (cosId: string): Promise<boolean> => {
+  return await axios
+    .get("/api/v1/fesuta/cos/remove", {
+      params: {
+        id: cosId,
+      },
+    })
+    .then((res) => res.data);
+};
+
 export {
   imageupload,
   postpic,
@@ -131,4 +156,7 @@ export {
   getComments,
   likeCount,
   shareCount,
+  getAllCoses,
+  removePic,
+  getAICoses,
 };

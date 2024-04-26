@@ -66,6 +66,16 @@ const shareCount = async (cosId: string): Promise<boolean> => {
     .then((res) => res.data.data);
 };
 
+const removeAiPic = async (cosId: string): Promise<boolean> => {
+  return await axios
+    .get("/api/v1/fesuta/ai/remove", {
+      params: {
+        id: cosId,
+      },
+    })
+    .then((res) => res.data);
+};
+
 export {
   getAiPosts,
   postAiPic,
@@ -74,4 +84,5 @@ export {
   getComments,
   likeCount,
   shareCount,
+  removeAiPic,
 };
