@@ -14,7 +14,7 @@ import {
   likeCount,
   sendCommentWithId,
   shareCount,
-} from "@/api/pic";
+} from "@/api/ai";
 import {
   Carousel,
   CarouselContent,
@@ -23,7 +23,7 @@ import {
 import Autoplay from "embla-carousel-autoplay";
 import { Comment } from "@/api/post/types";
 
-const Preview: React.FC = () => {
+const AIPicPreview: React.FC = () => {
   const { id } = useParams();
   const [postPics, setPostPics] = useState<PostPics>();
   const [content, setContent] = useState("");
@@ -87,12 +87,6 @@ const Preview: React.FC = () => {
                 主题：
                 <span className="bg-black text-white px-2 py-1 rounded-md">
                   {postPics?.theme}
-                </span>
-              </div>
-              <div>
-                作者：
-                <span className=" bg-black text-white px-2 py-1 rounded-md">
-                  {postPics?.nickName}
                 </span>
               </div>
             </div>
@@ -206,4 +200,4 @@ const Preview: React.FC = () => {
   );
 };
 
-export default Preview;
+export { AIPicPreview };

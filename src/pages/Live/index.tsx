@@ -47,7 +47,7 @@ export default function Live() {
           <MdLiveTv size={30} />
           <span className="pt-1">正在直播</span>
         </div>
-        <div>
+        <div className="flex gap-2">
           {nowLiving?.map((item) => (
             <LiveCard
               liveId={item.key}

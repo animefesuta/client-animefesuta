@@ -4,6 +4,7 @@ import Live from "@/pages/Live";
 import LivePreview from "@/pages/Live/Preview";
 import NoPage from "@/pages/NoPage";
 import Pics from "@/pages/Pics";
+import { AIPicPreview } from "@/pages/Pics/AIPicPreview";
 import PicPreview from "@/pages/Pics/Preview";
 import Posts from "@/pages/Posts";
 import PostPreview from "@/pages/Posts/Preview";
@@ -42,6 +43,11 @@ export const router = createBrowserRouter([
       {
         path: "/picback/:id",
         element: <PicPreview />,
+        loader: rootLoader,
+      },
+      {
+        path: "/aipic/:id",
+        element: <AIPicPreview />,
         loader: rootLoader,
       },
       {

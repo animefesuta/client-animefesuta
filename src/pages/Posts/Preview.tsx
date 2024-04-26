@@ -75,11 +75,20 @@ const Preview: React.FC = () => {
     (id && (
       <>
         <div className="bg-white px-16 min-h-[80vh] py-3">
-          <div className="text-3xl">{forumPost?.title}</div>
           <div className="flex gap-5 py-5 justify-between">
-            <div>
-              <div>主题：{forumPost?.theme}</div>
-              <div>作者：{forumPost?.nickname}</div>
+            <div className="flex gap-5 items-center">
+              <div>
+                主题：
+                <span className="bg-black text-white px-2 py-1 rounded-md">
+                  {forumPost?.theme}
+                </span>
+              </div>
+              <div>
+                作者：
+                <span className="bg-black text-white px-2 py-1 rounded-md">
+                  {forumPost?.nickname}
+                </span>
+              </div>
             </div>
             <div className="flex flex-col">
               <div className="flex justify-end gap-3">
@@ -110,6 +119,7 @@ const Preview: React.FC = () => {
               </div>
             </div>
           </div>
+          <div className="text-3xl mb-3">{forumPost?.title}</div>
           {forumPost?.content && (
             <div>
               <MarkdownPreview source={forumPost.content} />

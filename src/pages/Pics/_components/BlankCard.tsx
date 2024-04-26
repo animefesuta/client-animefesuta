@@ -12,12 +12,17 @@ interface CardProps {
   cardId: string;
   cardType: string;
   cardUrl: string;
+  isAI?: boolean;
 }
 
 const BlankCard: React.FC<CardProps> = ({ ...CardProps }) => {
   return (
     <Link
-      to={`/picback/${CardProps.cardId}`}
+      to={
+        CardProps.isAI
+          ? `/aipic/${CardProps.cardId}`
+          : `/picback/${CardProps.cardId}`
+      }
       className="w-[180px] transition-all hover:w-[420px] h-[300px] cursor-pointer"
     >
       <div

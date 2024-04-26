@@ -239,6 +239,7 @@ export default function Pics() {
               return (
                 <BlankCard
                   key={item.id}
+                  isAI
                   cardTitle={item.title}
                   cardId={item.id}
                   cardType={item.theme}
