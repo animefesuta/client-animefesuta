@@ -13,7 +13,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ChevronDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -38,14 +38,21 @@ import {
 export type Payment = {
   id: string;
   title: string;
-  theme: string;
+  status: string;
+  likeCount: string;
+  shareCount: string;
+  clickCount: string;
+  coser: string;
 };
 
 const PostTable: React.FC<{
   data: Payment[];
-  deletePost: (id: string) => void;
-  previewPost: (id: string) => void;
-}> = ({ data, deletePost, previewPost }) => {
+  ai: boolean;
+  deletec: (id: string) => void;
+  deleteai: (id: string) => void;
+  preViewPicAi: (id: string) => void;
+  preViewPicAic: (id: string) => void;
+}> = ({ data, ai, deletec, deleteai, preViewPicAi, preViewPicAic }) => {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -78,16 +85,98 @@ const PostTable: React.FC<{
     },
     {
       accessorKey: "title",
-      header: "帖子标题",
+      header: "标题",
       cell: ({ row }) => (
         <div className="capitalize">{row.getValue("title")}</div>
       ),
     },
     {
-      accessorKey: "theme",
-      header: "帖子主题",
+      accessorKey: "status",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            审核状态
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => {
+        if (row.getValue("status")) {
+          return <div className="lowercase">审核通过</div>;
+        } else {
+          return <div className="lowercase">审核中</div>;
+        }
+      },
+    },
+    {
+      accessorKey: "likeCount",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            点赞数
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
       cell: ({ row }) => (
-        <div className="capitalize">{row.getValue("theme")}</div>
+        <div className="lowercase">{row.getValue("likeCount")}</div>
+      ),
+    },
+    {
+      accessorKey: "shareCount",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            分享数
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => (
+        <div className="lowercase">{row.getValue("shareCount")}</div>
+      ),
+    },
+    {
+      accessorKey: "clickCount",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            热度(点击数)
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => (
+        <div className="lowercase">{row.getValue("clickCount")}</div>
+      ),
+    },
+    {
+      accessorKey: "coser",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            返图对象
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => (
+        <div className="lowercase">{row.getValue("coser")}</div>
       ),
     },
     {
@@ -105,10 +194,10 @@ const PostTable: React.FC<{
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>操作</DropdownMenuLabel>
-              <DropdownMenuItem onClick={() => previewp(row.original.id)}>
+              <DropdownMenuItem onClick={() => preViewPic(row.original.id)}>
                 预览
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => deletep(row.original.id)}>
+              <DropdownMenuItem onClick={() => deletePic(row.original.id)}>
                 删除
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -135,11 +224,19 @@ const PostTable: React.FC<{
       rowSelection,
     },
   });
-  const deletep = (id: string) => {
-    deletePost(id);
+  const deletePic = (id: string) => {
+    if (ai) {
+      deleteai(id);
+    } else {
+      deletec(id);
+    }
   };
-  const previewp = (id: string) => {
-    previewPost(id);
+  const preViewPic = (id: string) => {
+    if (ai) {
+      preViewPicAi(id);
+    } else {
+      preViewPicAic(id);
+    }
   };
 
   return (

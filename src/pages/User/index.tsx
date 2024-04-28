@@ -30,23 +30,23 @@ const profileList = [
     id: 3,
     title: "我的贴子",
   },
-  {
+  /* {
     id: 4,
     title: "活动管理",
-  },
+  }, */
   // ADMIN
-  {
+  /* {
     id: 5,
     title: "直播管理",
-  },
-  {
+  }, */
+  /* {
     id: 6,
     title: "用户管理",
   },
   {
     id: 7,
     title: "系统信息",
-  },
+  }, */
 ];
 
 export default function User() {
@@ -129,7 +129,10 @@ export default function User() {
               UID: {userInfo.uid}
             </div>
             <div className="flex gap-3">
-              <button className="text-[12px] text-black flex justify-center items-center bg-white hover:bg-gray-200 transition-all px-3 py-1 rounded">
+              <button
+                className="text-[12px] text-black flex justify-center items-center bg-white hover:bg-gray-200 transition-all px-3 py-1 rounded"
+                onClick={() => window.open("http://localhost:7860")}
+              >
                 AI创作中心
                 <span className="text-red-500 text-[10px] mx-1 px-1 rounded-full bg-[#f5f5f5]">
                   VIP

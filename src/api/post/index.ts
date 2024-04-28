@@ -71,6 +71,20 @@ const shareCount = async (postId: string): Promise<boolean> => {
     .then((res) => res.data.data);
 };
 
+const getAllPost = async (): Promise<forumPost[]> => {
+  const res = await axios.get("/api/v1/fesuta/forum/getallpost");
+  return res.data.data;
+};
+
+const deletePost = async (postId: string): Promise<boolean> => {
+  const res = await axios.get("/api/v1/fesuta/forum/deletepost", {
+    params: {
+      id: postId,
+    },
+  });
+  return res.data;
+};
+
 export {
   createPost,
   getPostsByTheme,
@@ -81,4 +95,6 @@ export {
   getComments,
   likeCount,
   shareCount,
+  getAllPost,
+  deletePost,
 };

@@ -80,7 +80,13 @@ const Preview: React.FC = () => {
               <div>
                 主题：
                 <span className="bg-black text-white px-2 py-1 rounded-md">
-                  {forumPost?.theme}
+                  {forumPost?.theme == "1"
+                    ? "杂谈"
+                    : forumPost?.theme == "2"
+                    ? "摄影"
+                    : forumPost?.theme == "3"
+                    ? "同人"
+                    : ""}
                 </span>
               </div>
               <div>

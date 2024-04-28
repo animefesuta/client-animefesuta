@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Payment, PostTable } from "./PostTable";
+import { Payment, PostTable } from "./PicTable";
 import { getAllCoses, getAICoses, removePic } from "@/api/pic";
 import { removeAiPic } from "@/api/ai";
 

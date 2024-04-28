@@ -102,11 +102,10 @@ const MobileNav: FC<NavProps> = ({ currentRoute, links }) => {
                   <span>个人中心</span>
                   {/* <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut> */}
                 </DropdownMenuItem>
-                <DropdownMenuItem>
+                {/* <DropdownMenuItem>
                   <CreditCard className="mr-2 h-4 w-4" />
                   <span>订单</span>
-                  {/* <DropdownMenuShortcut>⌘B</DropdownMenuShortcut> */}
-                </DropdownMenuItem>
+                </DropdownMenuItem> */}
                 <DropdownMenuItem>
                   <Settings className="mr-2 h-4 w-4" />
                   <span>设置</span>

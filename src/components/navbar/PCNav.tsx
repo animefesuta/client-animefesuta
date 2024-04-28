@@ -142,10 +142,10 @@ const PCNav: FC<NavProps> = ({ currentRoute, links }) => {
                     <User className="mr-2 h-4 w-4" />
                     <span>个人空间</span>
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => navigate("/")}>
+                  {/* <DropdownMenuItem onClick={() => navigate("/")}>
                     <CreditCard className="mr-2 h-4 w-4" />
                     <span>订单</span>
-                  </DropdownMenuItem>
+                  </DropdownMenuItem> */}
                   <DropdownMenuSeparator />
                   {userInfo.type && userInfo.type.toString() === "40" && (
                     <>
@@ -159,14 +159,14 @@ const PCNav: FC<NavProps> = ({ currentRoute, links }) => {
                   )}
 
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => navigate("/")}>
+                  {/* <DropdownMenuItem onClick={() => navigate("/")}>
                     <LifeBuoy className="mr-2 h-4 w-4" />
                     <span>服务支持</span>
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => navigate("/")} disabled>
                     <Cloud className="mr-2 h-4 w-4" />
                     <span>API</span>
-                  </DropdownMenuItem>
+                  </DropdownMenuItem> */}
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={(e) => e.preventDefault()}>
                     <AlertDialog>
